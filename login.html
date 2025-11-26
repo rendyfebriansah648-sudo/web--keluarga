@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Elegan Interaktif</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lato&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particles span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 0; }
+      100% { transform: translateY(-10vh); opacity: 1; }
+    }
+
+    .login-container {
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      animation: fadeSlide 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeSlide {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input:focus {
+      box-shadow: 0 0 10px rgba(44, 62, 80, 0.3);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #4CAF50, #2ecc71);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #loginResult {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    #welcomeMessage {
+      display: none;
+      margin-top: 15px;
+      font-size: 16px;
+      color: #2c3e50;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #2c3e50;
+      animation: typing 2s steps(30, end), blink 0.7s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .loading {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #27ae60;
+      animation: fadeIn 1s ease;
+    }
+
+    .register-link {
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .register-link a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      z-index: 2;
+      font-family: 'Playfair Display', serif;
+      animation: fadeUp 2s ease-in-out, glow 2s infinite alternate;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #74ebd5, 0 0 15px #ACB6E5; }
+      to { text-shadow: 0 0 10px #fff, 0 0 20px #74ebd5, 0 0 30px #ACB6E5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles"></div>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Masuk</button>
+    <p id="loginResult"></p>
+    <h3 id="welcomeMessage"></h3>
+    <p class="loading" id="loadingText" style="display:none;">⏳ Mengarahkan ke halaman utama...</p>
+    <div class="register-link">
+      Belum punya akun? <a href="regestrasi.html">Daftar di sini</a>
+    </div>
+  </div>
+
+  <footer>
+    Dibuat dengan ❤️ oleh <strong>Nama Kamu</strong>
+  </footer>
+
+  <script>
+    // Partikel acak
+    for (let i = 0; i < 30; i++) {
+      const span = document.createElement('span');
+      span.style.left = Math.random() * 100 + '%';
+      span.style.animationDelay = Math.random() * 10 + 's';
+      document.querySelector('.particles').appendChild(span);
+    }
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const result = document.getElementById("loginResult");
+      const welcomeMessage = document.getElementById("welcomeMessage");
+      const loadingText = document.getElementById("loadingText");
+
+      const registeredUsername = localStorage.getItem("registeredUsername");
+      const registeredPassword = localStorage.getItem("registeredPassword");
+
+      if (!username || !password) {
+        result.style.color = "#c0392b";
+        result.textContent = "Silakan isi semua kolom.";
+        welcomeMessage.style.display = "none";
+        return;
+      }
+
+      if (username === registeredUsername && password === registeredPassword) {
+        result.style.color = "#27ae60";
+        result.textContent = "Login berhasil!";
+        welcomeMessage.textContent = `Selamat datang kembali, ${username}!`;
+        welcomeMessage.style.display = "block";
+        loadingText.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "dashboard kakulator.html";
+        }, 3000);
+      } else {
+        result.style.color = "#c0392b";
+        result.textContent = "Username atau password salah.";
+        welcomeMessage.style.display = "none";
+        loadingText.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

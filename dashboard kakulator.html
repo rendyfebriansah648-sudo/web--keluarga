@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator Multi Operasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #0f0c1c, #5a5a7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      animation: fadeOutSplash 3s ease forwards;
+      animation-delay: 2.5s;
+    }
+
+    .splash h1 {
+      font-size: 36px;
+      color: #00ffff;
+      animation: popIn 1.5s ease-out;
+    }
+
+    .splash p {
+      font-size: 18px;
+      color: #ccc;
+      margin-top: 10px;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeOutSplash {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .main {
+      opacity: 0;
+      animation: fadeInMain 1s ease forwards;
+      animation-delay: 3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    @keyframes fadeInMain {
+      to { opacity: 1; }
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      animation: smoothFadeDown 1s ease-out;
+    }
+
+    .calculator {
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      width: 90%;
+      max-width: 500px;
+      animation: smoothFadeUp 1s ease-out;
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #1c1c1c;
+      color: #fff;
+      font-size: 16px;
+      resize: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 24px;
+      color: #00ffcc;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    #result.show {
+      animation: resultGlow 0.6s ease-out forwards;
+    }
+
+    #history {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    #history h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #historyList {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #historyList li {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #ccc;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes smoothFadeUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes smoothFadeDown {
+      0% { opacity: 0; transform: translateY(-40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes resultGlow {
+      0% { opacity: 0; transform: scale(0.95); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash">
+    <h1>Selamat Datang!</h1>
+    <p>Dibuat oleh Rendy, kelas XI RPL 🚀</p>
+  </div>
+
+  <div class="main">
+    <h2>🧮 Kalkulator Multi Operasi</h2>
+    <div class="calculator">
+      <textarea id="numbers" placeholder="Masukkan angka dipisahkan spasi atau koma"></textarea>
+      <select id="operation">
+        <option value="add">➕ Tambah</option>
+        <option value="subtract">➖ Kurang</option>
+        <option value="multiply">✖️ Kali</option>
+        <option value="divide">➗ Bagi</option>
+      </select>
+      <button onclick="calculate()">Hitung</button>
+      <div id="result"></div>
+    </div>
+
+    <div id="history">
+      <h3>📜 Riwayat Perhitungan</h3>
+      <ul id="historyList"></ul>
+    </div>
+
+    <footer>&copy; 2025 Dibuat oleh Rendy, kelas XI RPL 🚀</footer>
+  </div>
+
+  <script>
+    function animateCount(target, element) {
+      let start = 0;
+      const duration = 1000;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const value = Math.round(start + (target - start) * progress);
+        element.textContent = `💡 Hasil ${value}`;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function addToHistory(expression, resultValue) {
+      const historyList = document.getElementById("historyList");
+      const item = document.createElement("li");
+      item.textContent = `➡️ ${expression} = ${resultValue}`;
+      historyList.prepend(item);
+    }
+
+    function calculate() {
+      const input = document.getElementById("numbers").value;
+      const operation = document.getElementById("operation").value;
+      const result = document.getElementById("result");
+
+      const numbers = input.split(/[\s,]+/).map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+
+      if (numbers.length < 2) {
+        result.textContent = "⚠️ Masukkan minimal dua angka valid";
+        result.classList.remove("show");
+        void result.offsetWidth;
+        result.classList.add("show");
+        return;
+      }
+
+      let output;
+      switch (operation) {
+        case "add":
+          output = numbers.reduce((acc, val) => acc + val, 0);
+          break;
+        case "subtract":
+          output = numbers.reduce((acc, val) => acc - val);
+          break;
+        case "multiply":
+          output = numbers.reduce((acc, val) => acc * val, 1);
+          break;
+        case "divide":
+          if (numbers.slice(1).includes(0)) {
+            result.textContent = "⚠️ Tidak bisa dibagi dengan nol";
+            result.classList.remove("show");
+            void result.offsetWidth;
+            result.classList.add("show");
+            return;
+          }
+          output = numbers.reduce((acc, val) => acc / val);
+          break;
+      }
+
+      const rounded = Math.round(output);
+      result.classList.remove("show");
+      void result.offsetWidth
+            result.classList.add("show");
+      animateCount(rounded, result);
+      addToHistory(`${numbers.join(' ')} (${operation})`, rounded);
+    }
+  </script>
+</body>
+</html>
