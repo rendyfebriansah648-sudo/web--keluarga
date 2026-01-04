@@ -1,0 +1,252 @@
+:root {
+    --vintage-cream: #fdfaf6;
+    --deep-ink: #1a1a1a;
+    --antique-gold: #b38b4d;
+    --border-line: rgba(26, 26, 26, 0.08);
+}
+
+
+/* Base Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    background-color: var(--vintage-cream);
+    color: var(--deep-ink);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    /* Menyembunyikan kursor asli */
+}
+
+
+/* Fix Bug Cursor */
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+    /* Agar tidak menghalangi klik */
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--antique-gold);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--antique-gold);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+
+/* Navigation */
+
+nav {
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-line);
+    position: sticky;
+    top: 0;
+    background: rgba(253, 250, 246, 0.95);
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.nav-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+}
+
+.nav-title span {
+    color: var(--antique-gold);
+    font-weight: 400;
+    font-style: italic;
+}
+
+.logout-btn {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--antique-gold);
+    cursor: none;
+}
+
+
+/* Hero Section */
+
+.hero {
+    padding: 80px 5% 40px;
+    text-align: center;
+}
+
+.hero-sub {
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 4px;
+    font-size: 0.7rem;
+    color: var(--antique-gold);
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-style: italic;
+    line-height: 1.1;
+}
+
+
+/* Container & Cards */
+
+.container {
+    width: 95%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.section-label {
+    text-align: center;
+    padding: 60px 0 30px;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 5px;
+    color: var(--antique-gold);
+    font-size: 0.8rem;
+}
+
+.bio-card {
+    background: white;
+    border: 1px solid var(--border-line);
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.4s;
+    overflow: hidden;
+}
+
+.bio-card:hover {
+    border-color: var(--antique-gold);
+    transform: translateY(-5px);
+}
+
+.bio-visual {
+    width: 100%;
+}
+
+.bio-photo {
+    width: 100%;
+    height: 400px;
+    background: #eee;
+    overflow: hidden;
+}
+
+.bio-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.8s;
+}
+
+.role-badge {
+    background: var(--deep-ink);
+    color: white;
+    padding: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.6rem;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.bio-details {
+    padding: 30px;
+}
+
+.bio-details h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.bio-tagline {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: var(--antique-gold);
+    margin-bottom: 25px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.info-item label {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.6rem;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.info-item p {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.bio-content {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #444;
+    text-align: justify;
+}
+
+
+/* Responsivitas Desktop */
+
+@media (min-width: 768px) {
+    .bio-card {
+        flex-direction: row;
+        height: 500px;
+    }
+    .bio-visual {
+        width: 40%;
+    }
+    .bio-details {
+        width: 60%;
+        padding: 50px;
+        overflow-y: auto;
+    }
+}
+
+
+/* Responsivitas Mobile */
+
+@media (max-width: 768px) {
+    html,
+    body {
+        cursor: auto;
+    }
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

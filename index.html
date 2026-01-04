@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUMAH MUSEUM | THE ETERNAL LINEAGE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@400;600&family=Dancing+Script:wght@600&family=Roboto+Mono:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        if (sessionStorage.getItem('isFamilyAuthenticated') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav>
+        <div class="nav-title">Mbah Rejo <span>MUSEUM</span></div>
+        <div onclick="logout()" class="logout-btn">OUT</div>
+    </nav>
+
+    <header class="hero">
+        <p class="hero-sub">GARIS KETURUNAN & WARISAN</p>
+        <h1>Akar yang Kuat,<br>Masa Depan yang Hebat.</h1>
+    </header>
+
+    <main class="container">
+
+        <div class="section-label">GENERATION I: THE ANCESTORS</div>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="foto_kakek.jpg" alt="Kakek Rejo"></div>
+                <div class="role-badge">THE PATRIARCH</div>
+            </div>
+            <div class="bio-details">
+                <h2>Kakek REJO</h2>
+                <div class="bio-tagline">"Hadir dalam doa, hidup dalam warisan nilai."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Status</label>
+                        <p>Pilar Utama</p>
+                    </div>
+                    <div class="info-item"><label>Legacy</label>
+                        <p>Integritas</p>
+                    </div>
+                </div>
+                <div class="bio-content">Kakek adalah pilar pertama keluarga. Nilai-nilai integritas yang beliau tanamkan menjadi kompas bagi setiap keturunan.</div>
+            </div>
+        </article>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="foto_nenek.jpg" alt="Nenek Satunah"></div>
+                <div class="role-badge">THE MATRIARCH</div>
+            </div>
+            <div class="bio-details">
+                <h2>Nenek SATUNAH</h2>
+                <div class="bio-tagline">"Kasih sayang adalah perekat abadi."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Kuliner & Berkebun</p>
+                    </div>
+                    <div class="info-item"><label>Keahlian</label>
+                        <p>Narasi Hati</p>
+                    </div>
+                </div>
+                <div class="bio-content">Nenek adalah detak jantung rumah ini. Beliau mengajarkan bahwa cinta adalah kekuatan terbesar kita.</div>
+            </div>
+        </article>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="foto_paman.jpg" alt="Paman Man"></div>
+                <div class="role-badge">THE ELDER MENTOR</div>
+            </div>
+            <div class="bio-details">
+                <h2>Paman MAN</h2>
+                <div class="bio-tagline">"Dunia ini luas, jelajahi dengan berani."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Catur / Wawasan</p>
+                    </div>
+                    <div class="info-item"><label>Karakter</label>
+                        <p>Visioner</p>
+                    </div>
+                </div>
+                <div class="bio-content">Membawa perspektif modern ke dalam tradisi. Paman selalu memotivasi kami untuk mengeksplorasi potensi diri.</div>
+            </div>
+        </article>
+
+        <div class="section-label">GENERATION II: THE GUARDIANS</div>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="image/IMG-20251206-WA0078.jpg" alt="Ayah Samsul"></div>
+                <div class="role-badge">THE GUARDIAN</div>
+            </div>
+            <div class="bio-details">
+                <h2>AYAH Moch. Yuli Samsul</h2>
+                <div class="bio-tagline">"Prinsip kuat, bimbingan lembut."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Profesi</label>
+                        <p>Driver</p>
+                    </div>
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Otomotif / Musik</p>
+                    </div>
+                </div>
+                <div class="bio-content">Ayah memastikan atap keluarga tetap kokoh. Ketegasannya adalah perlindungan bagi kami semua.</div>
+            </div>
+        </article>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="image/IMG-20251206-WA0086.jpg" alt="Ibu Sumiati"></div>
+                <div class="role-badge">THE COMPASS</div>
+            </div>
+            <div class="bio-details">
+                <h2>IBU SUMIATI</h2>
+                <div class="bio-tagline">"Doa Ibu adalah dermaga aman."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Keahlian</label>
+                        <p>Manajemen Harmoni</p>
+                    </div>
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Membaca / Menjahit</p>
+                    </div>
+                </div>
+                <div class="bio-content">Ibu merajut setiap perbedaan menjadi harmoni yang indah melalui doa dan ketabahannya.</div>
+            </div>
+        </article>
+
+        <div class="section-label">GENERATION III: THE ARCHITECTS</div>
+
+        <article class="bio-card highlight-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="image/WhatsApp Image 2025-12-17 at 12.28.43_d029ff68.jpg" alt="Rendy Ferbiansah"></div>
+                <div class="role-badge">THE ARCHITECT</div>
+            </div>
+            <div class="bio-details">
+                <h2>MUHAMMAD RENDY FERBIANSAH</h2>
+                <div class="bio-tagline">"Mengabadikan memori lewat teknologi."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Fokus</label>
+                        <p>Web & Sound Engineer</p>
+                    </div>
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Coding / Sound System</p>
+                    </div>
+                </div>
+                <div class="bio-content">Pembuat arsip digital keluarga Rejo. Berdedikasi menjaga sejarah keluarga tetap hidup selamanya.</div>
+            </div>
+        </article>
+
+        <article class="bio-card">
+            <div class="bio-visual">
+                <div class="bio-photo"><img src="foto_adek.jpg" alt="Rafaila Gita"></div>
+                <div class="role-badge">THE SUCCESSOR</div>
+            </div>
+            <div class="bio-details">
+                <h2>RAFAILA GITA SAIDAH</h2>
+                <div class="bio-tagline">"Mengejar mimpi, menjaga tradisi."</div>
+                <div class="info-grid">
+                    <div class="info-item"><label>Hobi</label>
+                        <p>Seni / Olahraga</p>
+                    </div>
+                    <div class="info-item"><label>Potensi</label>
+                        <p>Energi Baru</p>
+                    </div>
+                </div>
+                <div class="bio-content">Harapan masa depan yang akan meneruskan cerita besar keluarga Rejo dengan semangat segar.</div>
+            </div>
+        </article>
+
+    </main>
+
+    <script>
+        // Script Kursor yang sudah diperbaiki bug-nya
+        const dot = document.querySelector(".cursor-dot");
+        const outline = document.querySelector(".cursor-outline");
+
+        window.addEventListener("mousemove", (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+
+            outline.animate({
+                left: `${x}px`,
+                top: `${y}px`
+            }, {
+                duration: 400,
+                fill: "forwards"
+            });
+        });
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN | REJO MUSEUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: white; padding: 40px; border: 1px solid var(--border-line); text-align: center; max-width: 400px; width: 100%; position: relative; z-index: 10;">
+            <p style="font-family: 'Roboto Mono'; font-size: 0.6rem; letter-spacing: 4px; color: var(--antique-gold);">PRIVATE ARCHIVE</p>
+            <h2 style="font-family: 'Playfair Display'; font-size: 2.3rem; margin: 20px 0; font-style: italic;">Rejo Lineage</h2>
+
+            <input type="password" id="pass" placeholder="Password Keluarga" style="width: 100%; padding: 15px; margin-bottom: 15px; text-align: center; border: 1px solid #eee; font-family: 'Montserrat'; outline: none; cursor: none;">
+
+            <button onclick="login()" style="width: 100%; padding: 15px; background: var(--deep-ink); color: white; border: none; cursor: none; font-family: 'Roboto Mono'; letter-spacing: 2px; transition: 0.3s;">
+                BUKA ARSIP
+            </button>
+
+            <p id="err" style="color: #d9534f; font-size: 0.7rem; margin-top: 15px; display: none; font-family: 'Roboto Mono';">AKSES DITOLAK: SANDI SALAH</p>
+
+            <div style="margin-top: 40px; border-top: 1px solid #f5f5f5; padding-top: 25px; font-family: 'Roboto Mono'; font-size: 0.6rem; opacity: 0.6; letter-spacing: 1px;">
+                CURATED & CODED BY<br>
+                <b style="color: var(--antique-gold); font-size: 0.75rem;">RENDY FERBIANSAH</b>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SCRIPT UNTUK GERAKAN KURSOR
+        const dot = document.querySelector(".cursor-dot");
+        const outline = document.querySelector(".cursor-outline");
+
+        window.addEventListener("mousemove", (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+            outline.animate({
+                left: `${x}px`,
+                top: `${y}px`
+            }, {
+                duration: 400,
+                fill: "forwards"
+            });
+        });
+
+        // LOGIKA LOGIN
+        function login() {
+            const pass = document.getElementById('pass').value;
+            if (pass === "KELUARGA") { // Ganti password di sini
+                sessionStorage.setItem('isFamilyAuthenticated', 'true');
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('err').style.display = 'block';
+            }
+        }
+
+        // Jalankan login saat tekan Enter
+        document.getElementById("pass").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                login();
+            }
+        });
+    </script>
+</body>
+
+</html>
