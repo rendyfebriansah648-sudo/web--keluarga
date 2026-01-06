@@ -21,7 +21,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
     cursor: none;
-    /* Menyembunyikan kursor asli */
 }
 
 
@@ -36,7 +35,6 @@ body {
     border-radius: 50%;
     z-index: 9999;
     pointer-events: none;
-    /* Agar tidak menghalangi klik */
 }
 
 .cursor-dot {
@@ -217,7 +215,77 @@ nav {
 }
 
 
-/* Responsivitas Desktop */
+/* Memory Gallery Section Styling */
+
+.memory-gate {
+    background: var(--deep-ink);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    border: 1px solid var(--antique-gold);
+    overflow: hidden;
+}
+
+.memory-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.memory-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--antique-gold);
+    margin-bottom: 15px;
+}
+
+.memory-text p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.memory-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border: 1px solid var(--antique-gold);
+    color: var(--antique-gold);
+    text-decoration: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    transition: 0.4s;
+}
+
+.memory-btn:hover {
+    background: var(--antique-gold);
+    color: white;
+}
+
+.memory-preview {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+.memory-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(50%);
+}
+
+
+/* Media Query: Desktop */
 
 @media (min-width: 768px) {
     .bio-card {
@@ -232,10 +300,23 @@ nav {
         padding: 50px;
         overflow-y: auto;
     }
+    .memory-gate {
+        flex-direction: row;
+        height: 350px;
+    }
+    .memory-content {
+        width: 60%;
+        text-align: left;
+        align-items: flex-start;
+    }
+    .memory-preview {
+        width: 40%;
+        height: 100%;
+    }
 }
 
 
-/* Responsivitas Mobile */
+/* Media Query: Mobile */
 
 @media (max-width: 768px) {
     html,
