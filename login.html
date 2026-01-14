@@ -9,30 +9,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="login-page">
 
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
-        <div style="background: white; padding: 40px; border: 1px solid var(--border-line); text-align: center; max-width: 400px; width: 100%; position: relative; z-index: 10;">
-            <p style="font-family: 'Roboto Mono'; font-size: 0.6rem; letter-spacing: 4px; color: var(--antique-gold);">PRIVATE ARCHIVE</p>
-            <h2 style="font-family: 'Playfair Display'; font-size: 2.3rem; margin: 20px 0; font-style: italic;">Rejo Lineage</h2>
+    <div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-color: var(--vintage-cream);">
+        <div class="js-reveal appear" style="background: white; padding: 40px; border: 1px solid var(--border-line); text-align: center; max-width: 400px; width: 100%; position: relative; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
 
-            <input type="password" id="pass" placeholder="Password Keluarga" style="width: 100%; padding: 15px; margin-bottom: 15px; text-align: center; border: 1px solid #eee; font-family: 'Montserrat'; outline: none; cursor: none;">
+            <p style="font-family: 'Roboto Mono'; font-size: 0.6rem; letter-spacing: 4px; color: var(--antique-gold); margin-bottom: 10px;">PRIVATE ARCHIVE</p>
 
-            <button onclick="login()" style="width: 100%; padding: 15px; background: var(--deep-ink); color: white; border: none; cursor: none; font-family: 'Roboto Mono'; letter-spacing: 2px; transition: 0.3s;">
+            <h2 class="login-title" style="font-family: 'Playfair Display'; font-size: 2.3rem; margin: 20px 0; font-style: italic; transition: letter-spacing 0.8s ease;">
+                Rejo Lineage
+            </h2>
+
+            <div style="margin: 30px 0;">
+                <input type="password" id="pass" placeholder="PASSWORD KELUARGA" style="width: 100%; padding: 15px; border: 1px solid var(--border-line); font-family: 'Roboto Mono'; font-size: 0.8rem; text-align: center; outline: none; transition: 0.3s;">
+                <p id="err" style="color: #c0392b; font-size: 0.7rem; font-family: 'Roboto Mono'; margin-top: 10px; display: none;">KATA SANDI SALAH, COBA LAGI.</p>
+            </div>
+
+            <button onclick="login()" class="memory-btn" style="width: 100%; justify-content: center; cursor: none;">
                 BUKA ARSIP
             </button>
 
-            <p id="err" style="color: #d9534f; font-size: 0.7rem; margin-top: 15px; display: none; font-family: 'Roboto Mono';">AKSES DITOLAK: SANDI SALAH</p>
-
-            <div style="margin-top: 40px; border-top: 1px solid #f5f5f5; padding-top: 25px; font-family: 'Roboto Mono'; font-size: 0.6rem; opacity: 0.6; letter-spacing: 1px;">
+            <div style="margin-top: 40px; font-family: 'Roboto Mono'; font-size: 0.6rem; opacity: 0.6; letter-spacing: 1px;">
                 CURATED & CODED BY<br>
                 <b style="color: var(--antique-gold); font-size: 0.75rem;">RENDY FERBIANSAH</b>
             </div>
         </div>
     </div>
+
+    <style>
+        /* CSS tambahan khusus halaman login untuk mendukung animasi teks */
+        
+        .login-title:hover {
+            letter-spacing: 4px;
+        }
+        
+        input:focus {
+            border-color: var(--antique-gold) !important;
+        }
+    </style>
 
     <script>
         // SCRIPT UNTUK GERAKAN KURSOR
@@ -56,11 +73,18 @@
         // LOGIKA LOGIN
         function login() {
             const pass = document.getElementById('pass').value;
-            if (pass === "KELUARGA SELAMANYA") {
+            // Password diubah ke huruf besar sesuai permintaan placeholder sebelumnya jika perlu
+            if (pass.toUpperCase() === "KELUARGA SELAMANYA") {
                 sessionStorage.setItem('isFamilyAuthenticated', 'true');
                 window.location.href = "index.html";
             } else {
                 document.getElementById('err').style.display = 'block';
+                // Efek getar saat salah
+                const loginBox = document.querySelector('.js-reveal');
+                loginBox.style.animation = "shake 0.4s";
+                setTimeout(() => {
+                    loginBox.style.animation = "";
+                }, 400);
             }
         }
 
