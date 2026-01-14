@@ -15,9 +15,59 @@
         body {
             background-color: #0a0a0a;
             color: #fff;
-            cursor: auto;
             margin: 0;
+            cursor: none !important;
+            /* Memastikan kursor asli hilang total */
         }
+        /* --- TAMBAHAN STYLE SPLASH SCREEN --- */
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+        
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: var(--antique-gold);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.5s forwards 0.5s;
+        }
+        
+        .welcome-sub {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            color: #fff;
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeInUp 1.5s forwards 1s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        /* --- END STYLE SPLASH SCREEN --- */
+        /* Navigasi */
         
         nav {
             background: rgba(10, 10, 10, 0.95);
@@ -29,6 +79,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
         
         .nav-title {
@@ -51,12 +102,14 @@
             border: 1px solid var(--antique-gold);
             padding: 5px 15px;
             transition: 0.3s;
+            cursor: none !important;
         }
         
         .logout-btn:hover {
             background: var(--antique-gold);
             color: white;
         }
+        /* Hero */
         
         .hero {
             padding: 80px 5% 40px;
@@ -76,7 +129,7 @@
             font-size: clamp(2rem, 8vw, 3.5rem);
             margin: 0;
         }
-        /* Gallery Structure */
+        /* Gallery Grid */
         
         .gallery-grid {
             display: grid;
@@ -91,8 +144,8 @@
             overflow: hidden;
             border: 1px solid rgba(179, 139, 77, 0.2);
             background: #111;
+            cursor: none !important;
         }
-        /* Animasi Reveal */
         
         .js-reveal {
             opacity: 0;
@@ -129,6 +182,7 @@
             font-size: 0.7rem;
             letter-spacing: 1px;
             text-transform: uppercase;
+            pointer-events: none;
         }
         
         .back-link {
@@ -140,24 +194,41 @@
             font-family: 'Roboto Mono', monospace;
             font-size: 0.8rem;
             transition: 0.3s;
+            cursor: none !important;
         }
         
         .back-link:hover {
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            color: #fff;
         }
         
         @media (max-width: 768px) {
+            body {
+                cursor: auto !important;
+            }
             .gallery-grid {
                 grid-template-columns: 1fr;
             }
             .gallery-item {
                 height: 350px;
             }
+            .cursor-dot,
+            .cursor-outline {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <div id="splash-screen">
+        <div class="welcome-text">Memory Archive</div>
+        <div class="welcome-sub">MENGINGAT SETIAP MOMEN</div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <nav>
         <div class="nav-title">Mbah Rejo <span>ARCHIVE</span></div>
@@ -271,6 +342,14 @@
     <a href="index.html" class="back-link">← KEMBALI KE HARMONI KELUARGA</a>
 
     <script>
+        // --- LOGIKA SPLASH SCREEN ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('fade-out');
+            }, 2500);
+        });
+
+        // Animasi Reveal (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -283,6 +362,41 @@
 
         document.querySelectorAll('.js-reveal').forEach(el => {
             observer.observe(el);
+        });
+
+        // Script Kursor Emas
+        const dot = document.querySelector(".cursor-dot");
+        const outline = document.querySelector(".cursor-outline");
+
+        window.addEventListener("mousemove", (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+
+            outline.animate({
+                left: `${x}px`,
+                top: `${y}px`
+            }, {
+                duration: 400,
+                fill: "forwards"
+            });
+        });
+
+        // Efek Hover pada Link agar Kursor Membesar
+        const hoverables = document.querySelectorAll('a, .logout-btn, .gallery-item');
+        hoverables.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                outline.style.width = "65px";
+                outline.style.height = "65px";
+                outline.style.backgroundColor = "rgba(179, 139, 77, 0.1)";
+            });
+            item.addEventListener('mouseleave', () => {
+                outline.style.width = "40px";
+                outline.style.height = "40px";
+                outline.style.backgroundColor = "transparent";
+            });
         });
     </script>
 </body>
