@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>PORTAL | REJO MUSEUM</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* NAVBAR */
+        
+        nav {
+            width: 100%;
+            background: rgba(0, 0, 0, .85);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        nav .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #b38b4d;
+            letter-spacing: 2px;
+        }
+        
+        nav .menu-btn {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 1.1rem;
+            transition: .3s;
+        }
+        
+        nav .menu-btn:hover {
+            color: #fff
+        }
+        /* MAIN CONTENT */
+        
+        main {
+            margin-top: 70px;
+            padding: 20px;
+            flex: 1;
+            animation: fadeIn 1.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: #b38b4d;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: clamp(.9rem, 3vw, 1rem);
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        /* BUTTONS */
+        
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: #b38b4d;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: clamp(.8rem, 3vw, 1rem);
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: .3s ease, transform .3s ease;
+            margin: 6px;
+        }
+        
+        .btn-link:hover {
+            background: #8e6d3a;
+            transform: scale(1.1);
+        }
+        
+        .btn-link i {
+            transition: .3s ease;
+        }
+        
+        .btn-link:hover i {
+            transform: translateY(-3px);
+            /* icon animation */
+        }
+        /* SUB NAV */
+        
+        .sub-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="title">REJO MUSEUM PORTAL</div>
+        <div>
+            <span class="menu-btn" onclick="playClickSound(); goHome()"><i class="fa-solid fa-house"></i> Home</span> &nbsp;|&nbsp;
+            <span class="menu-btn" onclick="playClickSound(); logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</span>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Selamat Datang di Portal</h1>
+        <p>Pilih bagian yang ingin kamu kunjungi dari museum digital keluarga besar Rejo:</p>
+
+        <div class="sub-nav">
+            <a class="btn-link" onclick="playClickSound()" href="index.html">
+                <i class="fa-solid fa-landmark"></i> Museum Utama
+            </a>
+            <a class="btn-link" onclick="playClickSound()" href="gallery.html">
+                <i class="fa-solid fa-image"></i> Galeri Foto
+            </a>
+            <a class="btn-link" onclick="playClickSound()" href="timeline.html">
+                <i class="fa-solid fa-clock-rotate-left"></i> Timeline
+            </a>
+            <a class="btn-link" onclick="playClickSound()" href="archives.html">
+                <i class="fa-solid fa-folder-open"></i> Arsip
+            </a>
+            <a class="btn-link" onclick="playClickSound()" href="video.html">
+                <i class="fa-solid fa-video"></i> Video Kenangan
+            </a>
+        </div>
+    </main>
+
+    <audio id="clickSound">
+    <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+</audio>
+
+    <script>
+        /* NO SESSION = REDIRECT TO LOGIN */
+        if (!sessionStorage.getItem("rejo_auth")) {
+            location.replace("login.html")
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            location.replace("login.html")
+        }
+
+        function goHome() {
+            location.href = "portal.html"
+        }
+
+        /* SOUND EFFECT */
+        function playClickSound() {
+            const s = document.getElementById("clickSound")
+            s.currentTime = 0
+            s.volume = 0.25
+            s.play().catch(() => {})
+        }
+
+        /* ANTI BACK */
+        history.pushState(null, "", location.href)
+        window.onpopstate = () => history.pushState(null, "", location.href)
+    </script>
+
+</body>
+
+</html>
