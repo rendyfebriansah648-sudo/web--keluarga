@@ -5,384 +5,445 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REJO MUSEUM | THE ETERNAL LINEAGE</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@400;600&family=Dancing+Script:wght@600&family=Roboto+Mono:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@400;600&family=Roboto+Mono:wght@100;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-    <script>
-        if (sessionStorage.getItem('isFamilyAuthenticated') !== 'true') {
-            window.location.href = "login.html";
+    <style>
+        html {
+            scroll-behavior: smooth;
         }
-    </script>
+        /* --- STYLES SPLASH SCREEN (MENGHILANG PERLAHAN) --- */
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow: hidden;
+            transition: opacity 3s cubic-bezier(0.4, 0, 0.2, 1), visibility 3s;
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#b38b4d 1px, transparent 1px);
+            background-size: 60px 60px;
+            filter: blur(1px);
+            opacity: 0.15;
+            animation: particleMove 35s linear infinite;
+        }
+        
+        @keyframes particleMove {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-1000px);
+            }
+        }
+        
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: #b38b4d;
+            text-shadow: 0 0 30px rgba(179, 139, 77, 0.4);
+            opacity: 0;
+            transform: scale(0.85);
+            animation: cinematicIn 4.5s forwards ease-out 1s;
+        }
+        
+        .welcome-sub {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 12px;
+            color: #fff;
+            margin-top: 25px;
+            opacity: 0;
+            animation: fadeInUp 3.5s forwards ease-out 2.8s;
+            text-transform: uppercase;
+        }
+        
+        @keyframes cinematicIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.85);
+                filter: blur(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 0.6;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        /* --- CURSOR & REVEAL --- */
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 2.5s cubic-bezier(0.2, 0.5, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* --- HOBBY DISPLAY --- */
+        
+        .bio-hobby {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.75rem;
+            color: #b38b4d;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(179, 139, 77, 0.2);
+            padding-top: 10px;
+            display: inline-block;
+        }
+        
+        .grayscale img {
+            filter: grayscale(100%);
+            transition: 0.8s;
+        }
+        
+        .bio-card:hover .grayscale img {
+            filter: grayscale(0%);
+        }
+        
+        .dead-card {
+            border-left: 4px solid #333 !important;
+        }
+    </style>
 </head>
 
 <body>
+
+    <div id="splash-screen">
+        <div class="particles"></div>
+        <div class="welcome-text">Selamat Datang</div>
+        <div class="welcome-sub">Keluarga Besar Mbah Rejo</div>
+    </div>
 
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
     <nav>
         <div class="nav-title">Rejo <span>MUSEUM</span></div>
-        <div onclick="logout()" class="logout-btn">[ KELUAR ]</div>
+        <div onclick="logout()" class="logout-btn" style="cursor:pointer">[ KELUAR ]</div>
     </nav>
 
     <header class="hero">
-        <p class="hero-sub">GARIS KETURUNAN & WARISAN</p>
-        <h1>Akar yang Kuat,<br>Masa Depan yang Hebat.</h1>
+        <p class="hero-sub reveal">GARIS KETURUNAN & WARISAN</p>
+        <h1 class="reveal">Akar yang Kuat,<br>Masa Depan yang Hebat.</h1>
     </header>
 
     <main class="container">
 
-        <div class="section-label">GENERATION I: THE ANCESTORS</div>
+        <div class="section-label reveal">GENERATION I: THE ANCESTORS</div>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/mbah rejo.jpeg" alt="Kakek Rejo"></div>
+                <div class="bio-photo"><img src="image/mbah rejo.jpeg"></div>
                 <div class="role-badge">THE PATRIARCH</div>
             </div>
             <div class="bio-details">
                 <h2>Kakek REJO</h2>
                 <div class="bio-tagline">"Hadir dalam doa, hidup dalam warisan nilai."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Status</label>
-                        <p>Pilar Utama</p>
-                    </div>
-                    <div class="info-item"><label>Legacy</label>
-                        <p>Integritas</p>
-                    </div>
-                </div>
-                <div class="bio-content">Kakek adalah pilar pertama keluarga. Nilai-nilai integritas yang beliau tanamkan menjadi kompas bagi setiap keturunan.</div>
+                <p class="bio-content">Beliau adalah pilar utama dan akar dari seluruh keturunan yang ada saat ini. Sosok yang dikenal karena ketegasannya dalam memegang prinsip kejujuran dan kegigihan dalam bekerja. Melalui tangan dinginnya, beliau mengajarkan bahwa kehormatan
+                    sebuah keluarga tidak diukur dari harta, melainkan dari budi pekerti yang luhur.</p>
+                <div class="bio-hobby">Hobi: Berkebun & Membaca Doa</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/mbah tuna.jpeg" alt="Nenek Satunah"></div>
+                <div class="bio-photo"><img src="image/mbah tuna.jpeg"></div>
                 <div class="role-badge">THE MATRIARCH</div>
             </div>
             <div class="bio-details">
                 <h2>Nenek SATUNAH</h2>
                 <div class="bio-tagline">"Kasih sayang adalah perekat abadi."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Kuliner & Berkebun</p>
-                    </div>
-                    <div class="info-item"><label>Keahlian</label>
-                        <p>Narasi Hati</p>
-                    </div>
-                </div>
-                <div class="bio-content">Nenek adalah detak jantung rumah ini. Beliau mengajarkan bahwa cinta adalah kekuatan terbesar kita.</div>
+                <p class="bio-content">Ibu besar yang menjadi tempat bernaung bagi seluruh anak cucu. Kelembutan tutur katanya dan ketulusan hatinya dalam merawat keluarga telah menjadi penyejuk di tengah badai kehidupan. Doa-doa yang dipanjatkannya setiap malam adalah benteng
+                    spiritual yang menjaga keutuhan keluarga besar Rejo hingga detik ini.</p>
+                <div class="bio-hobby">Hobi: Memasak & Merajut Kasih</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/pakdhe man.jpeg" alt="Paman Man"></div>
-                <div class="role-badge">THE ELDER MENTOR</div>
+                <div class="bio-photo"><img src="image/pakdhe man.jpeg"></div>
+                <div class="role-badge">THE ELDER</div>
             </div>
             <div class="bio-details">
                 <h2>Paman NGATEMAN</h2>
-                <div class="bio-tagline">"Dunia ini luas, jelajahi dengan berani."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Catur / Wawasan</p>
-                    </div>
-                    <div class="info-item"><label>Karakter</label>
-                        <p>Visioner</p>
-                    </div>
-                </div>
-                <div class="bio-content">Membawa perspektif modern ke dalam tradisi. Paman selalu memotivasi kami untuk mengeksplorasi potensi diri.</div>
+                <div class="bio-tagline">"Menjaga tradisi dengan bijaksana."</div>
+                <p class="bio-content">Sebagai anak tertua, beliau memegang tanggung jawab besar dalam meneruskan tongkat estafet kepemimpinan keluarga. Sosok penengah yang bijaksana, selalu memberikan solusi atas setiap persoalan dengan kepala dingin. Kedewasaannya menjadi
+                    teladan bagi adik-adik dan keponakannya dalam menjaga silaturahmi.</p>
+                <div class="bio-hobby">Hobi: Diskusi & Menikmati Kopi</div>
             </div>
         </article>
 
-        <div class="section-label">GENERATION II: THE GUARDIANS</div>
+        <div class="section-label reveal">GENERATION II: THE GUARDIANS</div>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/pakdhe atem.jpeg" alt="Paman"></div>
-                <div class="role-badge">THE MENTOR</div>
+                <div class="bio-photo"><img src="image/paman.jpg"></div>
+                <div class="role-badge">THE SUPPORT</div>
             </div>
             <div class="bio-details">
-                <h2>Paman atem</h2>
-                <div class="bio-tagline">"Kebijaksanaan adalah warisan terbaik."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Karakter</label>
-                        <p>Bijaksana</p>
-                    </div>
-                </div>
-                <div class="bio-content">Sosok pembimbing yang selalu memberikan arahan dan pandangan luas bagi keluarga besar Rejo.</div>
+                <h2>PAMAN</h2>
+                <div class="bio-tagline">"Keluarga adalah prioritas utama."</div>
+                <p class="bio-content">Sosok yang selalu bisa diandalkan dalam kondisi apa pun. Beliau adalah jembatan yang menghubungkan ide-ide setiap anggota keluarga. Dengan semangat gotong royong yang tinggi, beliau memastikan setiap acara keluarga berjalan dengan hangat
+                    dan penuh dengan tawa kebersamaan.</p>
+                <div class="bio-hobby">Hobi: Olahraga & Otomotif</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/bibi.jpg" alt="Bibi"></div>
+                <div class="bio-photo"><img src="image/bibi.jpg"></div>
                 <div class="role-badge">THE NURTURER</div>
             </div>
             <div class="bio-details">
-                <h2>Bibi [Nama]</h2>
-                <div class="bio-tagline">"Ketulusan yang menghangatkan suasana."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Keahlian</label>
-                        <p>Kuliner</p>
-                    </div>
-                </div>
-                <div class="bio-content">Membawa kehangatan lewat perhatian dan kasih sayang yang tulus kepada seluruh keponakan.</div>
+                <h2>BIBI</h2>
+                <div class="bio-tagline">"Ketulusan yang menghangatkan."</div>
+                <p class="bio-content">Wanita tangguh yang selalu memperhatikan detail terkecil dalam kenyamanan keluarga. Perhatiannya yang tulus seringkali menjadi penyemangat bagi keponakan-keponakannya yang sedang berjuang meniti karir. Baginya, melihat keluarga berkumpul
+                    dalam keadaan sehat adalah sebuah kebahagiaan tertinggi.</p>
+                <div class="bio-hobby">Hobi: Wisata Kuliner</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/IMG-20251206-WA0078.jpg" alt="Ayah Samsul"></div>
+                <div class="bio-photo"><img src="image/ayah.jpg"></div>
                 <div class="role-badge">THE GUARDIAN</div>
             </div>
             <div class="bio-details">
-                <h2>AYAH Moch. Yuli Samsul</h2>
+                <h2>Ayah MOCH. YULI SAMSUL</h2>
                 <div class="bio-tagline">"Prinsip kuat, bimbingan lembut."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Profesi</label>
-                        <p>Driver</p>
-                    </div>
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Otomotif / Musik</p>
-                    </div>
-                </div>
-                <div class="bio-content">Ayah memastikan atap keluarga tetap kokoh. Ketegasannya adalah perlindungan bagi kami semua.</div>
+                <p class="bio-content">Pejuang keluarga yang bekerja tanpa lelah demi memastikan masa depan anak-anaknya cerah. Dibalik ketegasannya, terdapat hati yang sangat lembut dan perhatian. Beliau adalah mentor kehidupan yang mengajarkan bahwa setiap rintangan harus
+                    dihadapi dengan kepala tegak dan hati yang bersih.</p>
+                <div class="bio-hobby">Hobi: Membaca & Memperbaiki Barang</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/IMG-20251206-WA0086.jpg" alt="Ibu Sumiati"></div>
+                <div class="bio-photo"><img src="image/ibu.jpg"></div>
                 <div class="role-badge">THE COMPASS</div>
             </div>
             <div class="bio-details">
-                <h2>IBU SUMIATI</h2>
+                <h2>Ibu SUMIATI</h2>
                 <div class="bio-tagline">"Doa Ibu adalah dermaga aman."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Keahlian</label>
-                        <p>Manajemen Harmoni</p>
-                    </div>
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Membaca / Menjahit</p>
-                    </div>
-                </div>
-                <div class="bio-content">Ibu merajut setiap perbedaan menjadi harmoni yang indah melalui doa dan ketabahannya.</div>
+                <p class="bio-content">Ibu yang penuh kesabaran dalam mendidik dan membimbing keluarga. Perannya sebagai pendamping ayah dan guru pertama bagi anak-anak sangatlah krusial. Ketulusannya dalam melayani keluarga menjadikannya sebagai magnet yang menyatukan seluruh
+                    hati di dalam rumah tangga.</p>
+                <div class="bio-hobby">Hobi: Bercocok Tanam</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/om.jpg" alt="Om"></div>
+                <div class="bio-photo"><img src="image/om.jpg"></div>
                 <div class="role-badge">THE PROTECTOR</div>
             </div>
             <div class="bio-details">
-                <h2>Om yuris safarudin</h2>
-                <div class="bio-tagline">"Kekuatan dalam kebersamaan."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Status</label>
-                        <p>Pelindung</p>
-                    </div>
-                </div>
-                <div class="bio-content">Selalu siap membantu dan memastikan setiap anggota keluarga merasa aman dan didukung.</div>
+                <h2>OM</h2>
+                <div class="bio-tagline">"Semangat dalam kebersamaan."</div>
+                <p class="bio-content">Pribadi yang energik dan selalu membawa suasana ceria. Beliau sering menjadi teman diskusi bagi generasi muda, memberikan pandangan-pandangan segar namun tetap berakar pada nilai keluarga. Kehadirannya selalu dinantikan karena kemampuannya
+                    mencairkan suasana yang kaku.</p>
+                <div class="bio-hobby">Hobi: Fotografi & Jalan-jalan</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/tante.jpeg" alt="Tante"></div>
+                <div class="bio-photo"><img src="image/tante.jpg"></div>
                 <div class="role-badge">THE SYMPATHIZER</div>
             </div>
             <div class="bio-details">
-                <h2>Tante minarsih</h2>
-                <div class="bio-tagline">"Senyuman yang menceriakan hari."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Karakter</label>
-                        <p>Ceria</p>
-                    </div>
-                </div>
-                <div class="bio-content">Hadir dengan keceriaan dan semangat yang selalu menghidupkan suasana di setiap pertemuan keluarga.</div>
+                <h2>TANTE</h2>
+                <div class="bio-tagline">"Kelembutan hati yang menginspirasi."</div>
+                <p class="bio-content">Mempunyai empati yang sangat tinggi terhadap sesama. Beliau adalah sosok yang sangat menghargai keindahan dan estetika dalam hidup. Melalui sifat penyayangnya, beliau mengajarkan bagaimana cara menghargai perbedaan dan saling mendukung
+                    dalam setiap langkah keluarga.</p>
+                <div class="bio-hobby">Hobi: Mendengarkan Musik</div>
             </div>
         </article>
 
-        <div class="section-label">GENERATION III: THE ARCHITECTS</div>
+        <div class="section-label reveal">GENERATION III: THE ARCHITECTS</div>
 
-        <article class="bio-card" style="border-left: 3px solid #ccc;">
+        <article class="bio-card dead-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo" style="filter: grayscale(100%); opacity: 0.8;">
-                    <img src="image/Error Wallpaper - Wallpaper Sun.jpg" alt="Almarhum Mas">
-                </div>
-                <div class="role-badge" style="background: #444;">IN LOVING MEMORY</div>
+                <div class="bio-photo grayscale"><img src="image/Error Wallpaper - Wallpaper Sun.jpg"></div>
+                <div class="role-badge">ETERNAL LIGHT</div>
             </div>
             <div class="bio-details">
-                <h2>Mas [Nama]</h2>
-                <div class="bio-tagline">"Terpahat di hati, abadi dalam kenangan."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Status</label>
-                        <p>Putra Sulung</p>
-                    </div>
-                    <div class="info-item"><label>Kenangan</label>
-                        <p>Cahaya Keluarga</p>
-                    </div>
-                </div>
-                <div class="bio-content">Meskipun raganya telah tiada, kasih sayang dan teladan yang beliau berikan akan selalu menjadi bagian dari fondasi keluarga ini.</div>
+                <h2>MAS (Alm)</h2>
+                <div class="bio-tagline">"Abadi dalam kenangan kami."</div>
+                <p class="bio-content">Meski raga telah tiada, semangat dan kenangan manis tentangnya tetap hidup di setiap sudut memori kami. Beliau adalah sosok yang pernah mewarnai hari-hari keluarga dengan tawa yang khas. Setiap doa yang kami panjatkan adalah bentuk cinta
+                    yang tidak akan pernah putus sampai kapan pun.</p>
+                <div class="bio-hobby">Kenangan Abadi</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/mbak.jpg" alt="Mbak"></div>
-                <div class="role-badge">THE PROTECTOR</div>
+                <div class="bio-photo"><img src="image/mbak.jpg"></div>
+                <div class="role-badge">GENTLE SOUL</div>
             </div>
             <div class="bio-details">
-                <h2>Mbak [Nama]</h2>
-                <div class="bio-tagline">"Kelembutan yang menguatkan."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Status</label>
-                        <p>Anak Kedua</p>
-                    </div>
-                </div>
-                <div class="bio-content">Membawa harmoni dalam keluarga dengan perhatian dan kasih sayangnya yang tulus bagi adik-adiknya.</div>
+                <h2>MBAK</h2>
+                <div class="bio-tagline">"Teladan dalam tanggung jawab."</div>
+                <p class="bio-content">Anak sulung di generasinya yang memiliki jiwa kepemimpinan alami. Mandiri dan sangat memperhatikan adik-adiknya. Beliau menjadi bukti bahwa kerja keras dan ketekunan akan membuahkan hasil yang manis, menjadi inspirasi bagi adik-adiknya
+                    untuk terus bermimpi setinggi langit.</p>
+                <div class="bio-hobby">Hobi: Desain & Menata Ruang</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/mas_dua.jpg" alt="Mas"></div>
-                <div class="role-badge">THE VISIONARY</div>
+                <div class="bio-photo"><img src="image/mas.jpg"></div>
+                <div class="role-badge">STALWART HEART</div>
             </div>
             <div class="bio-details">
-                <h2>Mas [Nama]</h2>
-                <div class="bio-tagline">"Membangun masa depan dengan tekad."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Karakter</label>
-                        <p>Gigih</p>
-                    </div>
-                </div>
-                <div class="bio-content">Menambah kekuatan barisan generasi ketiga dengan semangat dan ketekunan yang tak pernah padam.</div>
+                <h2>MAS</h2>
+                <div class="bio-tagline">"Kekuatan dalam persaudaraan."</div>
+                <p class="bio-content">Laki-laki yang tangguh dan memiliki rasa persaudaraan yang luar biasa kuat. Selalu siap berdiri paling depan untuk melindungi dan mendukung saudara-saudaranya. Ketenangannya dalam menghadapi masalah menjadikannya tempat bersandar yang
+                    nyaman bagi anggota keluarga lainnya.</p>
+                <div class="bio-hobby">Hobi: Gaming & Teknologi</div>
             </div>
         </article>
 
-        <article class="bio-card highlight-card">
+        <article class="bio-card highlight-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/rens.jpg" alt="Rendy"></div>
-                <div class="role-badge">THE ARCHITECT</div>
+                <div class="bio-photo"><img src="image/rens.jpg"></div>
+                <div class="role-badge">THE CREATOR</div>
             </div>
             <div class="bio-details">
-                <h2>MUHAMMAD RENDY FERBIANSAH</h2>
+                <h2>M. RENDY FERBIANSAH</h2>
                 <div class="bio-tagline">"Mengabadikan memori lewat teknologi."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Fokus</label>
-                        <p>Web & Audio</p>
-                    </div>
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Sound System</p>
-                    </div>
-                </div>
-                <div class="bio-content">Pembuat arsip digital keluarga Rejo. Menjaga sejarah tetap hidup melalui baris kode dan frekuensi suara.</div>
+                <p class="bio-content">Cucu yang mendedikasikan keterampilannya untuk menjaga warisan keluarga melalui media digital. Kreatif, visioner, dan memiliki semangat belajar yang tinggi. Ia percaya bahwa teknologi adalah cara terbaik untuk memastikan sejarah keluarga
+                    besar Mbah Rejo tidak hilang ditelan zaman.</p>
+                <div class="bio-hobby">Hobi: Coding & Audio Sound System</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/gita_.jpeg" alt="Rafaila Gita"></div>
-                <div class="role-badge">THE SUCCESSOR</div>
+                <div class="bio-photo"><img src="image/gita_.jpeg"></div>
+                <div class="role-badge">CREATIVE SPIRIT</div>
             </div>
             <div class="bio-details">
                 <h2>RAFAILA GITA SAIDAH</h2>
                 <div class="bio-tagline">"Mengejar mimpi, menjaga tradisi."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>Seni / Olahraga</p>
-                    </div>
-                    <div class="info-item"><label>Potensi</label>
-                        <p>Energi Baru</p>
-                    </div>
-                </div>
-                <div class="bio-content">Generasi penerus yang membawa keceriaan dan semangat baru bagi keluarga besar.</div>
+                <p class="bio-content">Mempunyai jiwa seni yang kental dan pandangan yang modern. Ia mampu mengombinasikan nilai-nilai tradisional keluarga dengan tren masa kini secara apik. Kegigihannya dalam mengejar apa yang ia cintai menjadikannya sosok muda yang penuh
+                    warna di tengah keluarga besar.</p>
+                <div class="bio-hobby">Hobi: Seni & Melukis</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/ricky.jpeg" alt="Adek"></div>
-                <div class="role-badge">THE EXPLORER</div>
+                <div class="bio-photo"><img src="image/ricky.jpeg"></div>
+                <div class="role-badge">BRAVE EXPLORER</div>
             </div>
             <div class="bio-details">
-                <h2>Ricky tirta ramadhan</h2>
-                <div class="bio-tagline">"Menemukan jalan dengan keberanian."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                    <div class="info-item"><label>Karakter</label>
-                        <p>Penuh Minat</p>
-                    </div>
-                </div>
-                <div class="bio-content">Terus tumbuh mengeksplorasi potensi diri untuk menjadi kebanggaan keluarga di masa depan.</div>
+                <h2>RICKY TIRTA RAMADHAN</h2>
+                <div class="bio-tagline">"Keberanian untuk terus melangkah."</div>
+                <p class="bio-content">Pemuda yang penuh semangat dan rasa ingin tahu yang besar. Ia tidak pernah takut untuk mencoba hal-hal baru dan keluar dari zona nyaman. Dedikasinya dalam berproses menunjukkan bahwa ia adalah calon pemimpin masa depan yang akan membanggakan
+                    nama besar keluarga.</p>
+                <div class="bio-hobby">Hobi: Petualangan & Olahraga</div>
             </div>
         </article>
 
-        <article class="bio-card">
+        <article class="bio-card reveal">
             <div class="bio-visual">
-                <div class="bio-photo"><img src="image/lisa.jpeg" alt="Si Bungsu"></div>
-                <div class="role-badge">THE FUTURE</div>
+                <div class="bio-photo"><img src="image/lisa.jpeg"></div>
+                <div class="role-badge">JOYFUL BLOOM</div>
             </div>
             <div class="bio-details">
-                <h2>alyssa alfatunisa</h2>
+                <h2>ALYSSA ALFATUNISA (LISA)</h2>
                 <div class="bio-tagline">"Bunga kecil pembawa tawa."</div>
-                <div class="info-grid">
-                    <div class="info-item"><label>Status</label>
-                        <p>Putri Bungsu</p>
-                    </div>
-                    <div class="info-item"><label>Hobi</label>
-                        <p>[Isi Hobi]</p>
-                    </div>
-                </div>
-                <div class="bio-content">Si bungsu yang menjadi pelengkap kebahagiaan dan tawa bagi seluruh anggota keluarga.</div>
+                <p class="bio-content">Anggota termuda yang menjadi sumber kegembiraan bagi seluruh keluarga. Kepolosannya dan tawa riangnya selalu mampu menghapus kelelahan orang-orang di sekitarnya. Lisa adalah pengingat bagi kami semua tentang pentingnya kebahagiaan-kebahagiaan
+                    kecil di dalam hidup.</p>
+                <div class="bio-hobby">Hobi: Bermain & Bernyanyi</div>
             </div>
         </article>
+
+        <section class="memory-gate reveal">
+            <div class="memory-content">
+                <div style="color: #b38b4d; font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 10px;">THE GALLERY</div>
+                <h2>Saksi Bisu Rumah Kenangan</h2>
+                <a href="gallery.html" class="memory-btn">EKSPLORASI GALERI</a>
+            </div>
+            <div class="memory-preview">
+                <img src="image-kenangan/rumah.jpg" alt="Rumah">
+            </div>
+        </section>
 
     </main>
 
     <script>
-        // Script Kursor yang sudah diperbaiki bug-nya
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('fade-out');
+            }, 7000);
+        });
+
         const dot = document.querySelector(".cursor-dot");
         const outline = document.querySelector(".cursor-outline");
-
         window.addEventListener("mousemove", (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-
-            dot.style.left = `${x}px`;
-            dot.style.top = `${y}px`;
-
+            dot.style.left = `${e.clientX}px`;
+            dot.style.top = `${e.clientY}px`;
             outline.animate({
-                left: `${x}px`,
-                top: `${y}px`
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
             }, {
-                duration: 400,
+                duration: 800,
                 fill: "forwards"
             });
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
         function logout() {
             sessionStorage.clear();
