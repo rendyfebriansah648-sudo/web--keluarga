@@ -22,7 +22,7 @@
             font-family: 'Roboto Mono', monospace;
             color: white
         }
-        /* ================= CURSOR ================= */
+        /* Cursor */
         
         @media(pointer:fine) {
             body,
@@ -39,8 +39,8 @@
             left: 0;
             border-radius: 50%;
             pointer-events: none;
+            transform: translate(-50%, -50%);
             z-index: 10000;
-            transform: translate(-50%, -50%)
         }
         
         .cursor-dot {
@@ -55,7 +55,7 @@
             height: 40px;
             border: 1px solid rgba(179, 139, 77, .5)
         }
-        /* ================= SPLASH ================= */
+        /* Splash */
         
         #splash-screen {
             position: fixed;
@@ -87,7 +87,7 @@
             opacity: 0;
             visibility: hidden
         }
-        /* ================= LOGIN ================= */
+        /* Login */
         
         .login-container {
             height: 100vh;
@@ -152,7 +152,7 @@
         button:hover {
             background: #8e6d3a
         }
-        /* ================= SHAKE ================= */
+        /* Shake */
         
         @keyframes softShake {
             0% {
@@ -175,7 +175,7 @@
         .login-box.shake {
             animation: softShake .45s
         }
-        /* ================= UNLOCK ================= */
+        /* Unlock */
         
         @keyframes unlockGlow {
             50% {
@@ -191,7 +191,7 @@
         .login-box.unlock {
             animation: unlockGlow 1.8s cubic-bezier(.22, 1, .36, 1) forwards
         }
-        /* ================= LOADING ================= */
+        /* Loading */
         
         #access-loading {
             position: fixed;
@@ -211,13 +211,6 @@
             opacity: 1
         }
         
-        .access-text {
-            letter-spacing: 6px;
-            color: #b38b4d;
-            margin-top: 20px;
-            font-size: clamp(.7rem, 3vw, .9rem)
-        }
-        
         .scan-line {
             position: absolute;
             width: 100%;
@@ -234,16 +227,67 @@
                 top: 100%
             }
         }
-        /* ================= GRAIN ================= */
+        
+        .access-text {
+            letter-spacing: 6px;
+            color: #b38b4d;
+            margin-top: 20px;
+            font-size: clamp(.7rem, 3vw, .9rem)
+        }
+        /* Grain */
         
         .grain {
             position: fixed;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
             pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
             z-index: 9997
         }
-        /* ================= MOBILE ================= */
+        /* Biometric */
+        
+        #biometric-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: .8s;
+            z-index: 10002;
+        }
+        
+        #biometric-modal.show {
+            opacity: 1;
+            visibility: visible
+        }
+        
+        .biometric-box {
+            background: #111;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #b38b4d;
+            width: 80%;
+            max-width: 300px;
+        }
+        
+        .biometric-icon {
+            font-size: 4rem;
+            color: #b38b4d;
+            margin-bottom: 10px;
+            animation: biometricPulse 1.4s infinite ease-in-out
+        }
+        
+        @keyframes biometricPulse {
+            0%,
+            100% {
+                transform: scale(1)
+            }
+            50% {
+                transform: scale(1.15)
+            }
+        }
         
         @media(max-width:768px) {
             .cursor-dot,
@@ -282,74 +326,102 @@
         <div class="access-text">ACCESS GRANTED</div>
     </div>
 
+    <!-- Biometric Modal -->
+    <div id="biometric-modal">
+        <div class="biometric-box">
+            <div class="biometric-icon">🔒</div>
+            <div class="biometric-text">Verifikasi Biometrik</div>
+            <div class="biometric-text" style="font-size:.85rem;color:#bbb;">Sentuh sensor untuk melanjutkan</div>
+            <button onclick="acceptBiometric()" style="margin-top:15px;padding:10px 20px;background:#b38b4d;border:none;color:#000;font-weight:bold;letter-spacing:1px;cursor:pointer;">Scan Sekarang</button>
+        </div>
+    </div>
+
     <audio id="loginSound" preload="auto">
-    <source src="login.mp3" type="audio/mpeg">
+    <source src="https://www.orangefreesounds.com/wp-content/uploads/2020/04/Login-sound.mp3" type="audio/mpeg">
 </audio>
 
     <script>
-        /* ================= SPLASH ================= */
+        /* Anti Back */
+        history.pushState(null, "", location.href)
+        window.onpopstate = () => history.pushState(null, "", location.href)
+
+        /* Splash */
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('splash-screen').classList.add('fade-out')
-            }, 3500)
+            setTimeout(() => document.getElementById('splash-screen').classList.add('fade-out'), 3500)
         })
 
-        /* ================= CURSOR ================= */
+        /* Cursor */
         if (window.matchMedia("(pointer:fine)").matches) {
             const dot = document.querySelector('.cursor-dot')
             const out = document.querySelector('.cursor-outline')
-            let x = 0,
-                y = 0,
+            let mx = 0,
+                my = 0,
                 ox = 0,
                 oy = 0
             addEventListener('mousemove', e => {
-                x = e.clientX;
-                y = e.clientY
+                mx = e.clientX;
+                my = e.clientY
             });
             (function anim() {
-                ox += (x - ox) * 0.15
-                oy += (y - oy) * 0.15
-                dot.style.left = x + 'px'
-                dot.style.top = y + 'px'
-                out.style.left = ox + 'px'
-                out.style.top = oy + 'px'
+                ox += (mx - ox) * .15
+                oy += (my - oy) * .15
+                dot.style.left = mx + "px";
+                dot.style.top = my + "px"
+                out.style.left = ox + "px";
+                out.style.top = oy + "px"
                 requestAnimationFrame(anim)
             })()
         }
 
-        /* ================= AUTH ================= */
-        const PASSWORD = "KELUARGA SELAMANYA"
+        let biometricPassed = false
+
+        function showBiometric() {
+            document.getElementById('biometric-modal').classList.add('show')
+        }
+
+        function acceptBiometric() {
+            biometricPassed = true;
+            document.getElementById('biometric-modal').classList.remove('show')
+        }
+
         let attempts = 0,
             locked = false
+        const PASSWORD = "KELUARGA SELAMANYA"
 
         function checkPass() {
             if (locked) return
-            const input = document.getElementById("passInput").value.trim()
-            const box = document.querySelector(".login-box")
-            const err = document.getElementById("errorMessage")
-            const load = document.getElementById("access-loading")
-            const sound = document.getElementById("loginSound")
+            if (!biometricPassed) {
+                showBiometric();
+                return
+            }
 
-            if (input === PASSWORD) {
-                sound.volume = 0.4
-                sound.play()
-                box.classList.add("unlock")
-                load.classList.add("show")
+            const pass = document.getElementById('passInput').value.trim()
+            const box = document.querySelector('.login-box')
+            const err = document.getElementById('errorMessage')
+            const load = document.getElementById('access-loading')
+            const snd = document.getElementById('loginSound')
+
+            if (pass === PASSWORD) {
+                snd.volume = 0.4;
+                snd.play().catch(() => {})
+                box.classList.add('unlock');
+                load.classList.add('show')
                 setTimeout(() => {
-                    sessionStorage.setItem("rejo_auth", "true")
-                    location.href = "index.html"
+                    sessionStorage.setItem('rejo_auth', 'true');
+                    location.href = 'portal.html'
                 }, 2300)
             } else {
                 attempts++
-                box.classList.remove("shake")
-                void box.offsetWidth
-                box.classList.add("shake")
+                if (navigator.vibrate) navigator.vibrate([80, 30, 80])
+                box.classList.remove('shake');
+                void box.offsetWidth;
+                box.classList.add('shake')
 
                 if (attempts >= 3) {
                     locked = true
                     err.innerText = "SYSTEM LOCKED • ACCESS TERMINATED"
-                    document.getElementById("passInput").disabled = true
-                    setTimeout(() => location.replace("https://www.google.com"), 2500)
+                    document.getElementById('passInput').disabled = true
+                    setTimeout(() => location.replace('https://www.google.com'), 2500)
                 } else {
                     err.innerText = "ACCESS DENIED • " + (3 - attempts) + " ATTEMPTS LEFT"
                 }
