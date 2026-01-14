@@ -5,96 +5,357 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN | REJO MUSEUM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
 
-<body class="login-page">
-
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
-    <div style="height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background-color: var(--vintage-cream);">
-        <div class="js-reveal appear" style="background: white; padding: 40px; border: 1px solid var(--border-line); text-align: center; max-width: 400px; width: 100%; position: relative; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.03);">
-
-            <p style="font-family: 'Roboto Mono'; font-size: 0.6rem; letter-spacing: 4px; color: var(--antique-gold); margin-bottom: 10px;">PRIVATE ARCHIVE</p>
-
-            <h2 class="login-title" style="font-family: 'Playfair Display'; font-size: 2.3rem; margin: 20px 0; font-style: italic; transition: letter-spacing 0.8s ease;">
-                Rejo Lineage
-            </h2>
-
-            <div style="margin: 30px 0;">
-                <input type="password" id="pass" placeholder="PASSWORD KELUARGA" style="width: 100%; padding: 15px; border: 1px solid var(--border-line); font-family: 'Roboto Mono'; font-size: 0.8rem; text-align: center; outline: none; transition: 0.3s;">
-                <p id="err" style="color: #c0392b; font-size: 0.7rem; font-family: 'Roboto Mono'; margin-top: 10px; display: none;">KATA SANDI SALAH, COBA LAGI.</p>
-            </div>
-
-            <button onclick="login()" class="memory-btn" style="width: 100%; justify-content: center; cursor: none;">
-                BUKA ARSIP
-            </button>
-
-            <div style="margin-top: 40px; font-family: 'Roboto Mono'; font-size: 0.6rem; opacity: 0.6; letter-spacing: 1px;">
-                CURATED & CODED BY<br>
-                <b style="color: var(--antique-gold); font-size: 0.75rem;">RENDY FERBIANSAH</b>
-            </div>
-        </div>
-    </div>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS tambahan khusus halaman login untuk mendukung animasi teks */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
         
-        .login-title:hover {
+        body {
+            background: #0a0a0a;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Roboto Mono', monospace;
+            color: white;
+        }
+        /* ================= CURSOR ================= */
+        
+        @media(pointer:fine) {
+            body,
+            input,
+            button {
+                cursor: none
+            }
+        }
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+        }
+        
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #b38b4d;
+            z-index: 10001;
+        }
+        
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(179, 139, 77, .5);
+        }
+        /* ================= SPLASH ================= */
+        
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 2s ease, visibility 2s;
+        }
+        
+        #splash.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        #splash h1 {
+            font-family: 'Playfair Display', serif;
+            color: #b38b4d;
             letter-spacing: 4px;
+            opacity: 0;
+            animation: splashIn 2.5s forwards 1s;
+        }
+        
+        @keyframes splashIn {
+            to {
+                opacity: 1
+            }
+        }
+        /* ================= LOGIN ================= */
+        
+        .login-wrap {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-box {
+            background: #111;
+            padding: 50px 40px;
+            border: 1px solid rgba(179, 139, 77, .35);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            animation: fadeIn 1.6s cubic-bezier(.22, 1, .36, 1);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.96);
+                filter: blur(6px)
+            }
+            to {
+                opacity: 1;
+                transform: none;
+                filter: none
+            }
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            background: #000;
+            border: 1px solid #333;
+            color: white;
+            text-align: center;
+            outline: none;
         }
         
         input:focus {
-            border-color: var(--antique-gold) !important;
+            border-color: #b38b4d
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #b38b4d;
+            border: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: .4s;
+        }
+        
+        button:hover {
+            background: #8e6d3a;
+            transform: translateY(-2px);
+        }
+        /* ================= SHAKE ================= */
+        
+        @keyframes shake {
+            0% {
+                transform: translateX(0)
+            }
+            25% {
+                transform: translateX(-5px)
+            }
+            50% {
+                transform: translateX(5px)
+            }
+            75% {
+                transform: translateX(-3px)
+            }
+            100% {
+                transform: translateX(0)
+            }
+        }
+        
+        .shake {
+            animation: shake .4s;
+        }
+        /* ================= UNLOCK ================= */
+        
+        @keyframes unlock {
+            50% {
+                box-shadow: 0 0 40px rgba(179, 139, 77, .6);
+                transform: scale(1.04)
+            }
+            100% {
+                opacity: 0;
+                transform: scale(.95)
+            }
+        }
+        
+        .unlock {
+            animation: unlock 1.8s cubic-bezier(.22, 1, .36, 1) forwards;
+        }
+        /* ================= LOADING ================= */
+        
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s;
+            z-index: 9998;
+        }
+        
+        #loading.show {
+            opacity: 1
+        }
+        
+        .scan {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #b38b4d, transparent);
+            animation: scan 2.5s linear infinite;
+        }
+        
+        @keyframes scan {
+            from {
+                top: 0
+            }
+            to {
+                top: 100%
+            }
+        }
+        
+        #loading span {
+            margin-top: 20px;
+            letter-spacing: 6px;
+            color: #b38b4d;
+        }
+        /* ================= GRAIN ================= */
+        
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            z-index: 9997;
         }
     </style>
+</head>
+
+<body>
+
+    <div id="splash">
+        <h1>The Eternal Lineage</h1>
+    </div>
+
+    <div class="grain"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="login-wrap">
+        <div class="login-box">
+            <h2 style="font-family:Playfair Display;color:#b38b4d;letter-spacing:3px">
+                AUTHENTICATION
+            </h2>
+            <p style="color:#666;font-size:10px;margin:10px 0 20px">
+                RESTRICTED ARCHIVE ACCESS
+            </p>
+            <input type="password" id="pass" placeholder="KODE KELUARGA">
+            <button onclick="login()">ENTER ARCHIVE</button>
+            <p id="msg" style="color:#ff4d4d;font-size:11px;margin-top:15px"></p>
+        </div>
+    </div>
+
+    <div id="loading">
+        <div class="scan"></div>
+        <span>ACCESS GRANTED</span>
+    </div>
+
+    <audio id="sound">
+    <source src="login.mp3" type="audio/mpeg">
+</audio>
 
     <script>
-        // SCRIPT UNTUK GERAKAN KURSOR
-        const dot = document.querySelector(".cursor-dot");
-        const outline = document.querySelector(".cursor-outline");
+        /* CURSOR */
+        const dot = document.querySelector(".cursor-dot")
+        const out = document.querySelector(".cursor-outline")
+        let x = 0,
+            y = 0,
+            ox = 0,
+            oy = 0
+        addEventListener("mousemove", e => {
+            x = e.clientX;
+            y = e.clientY
+        })
 
-        window.addEventListener("mousemove", (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            dot.style.left = `${x}px`;
-            dot.style.top = `${y}px`;
-            outline.animate({
-                left: `${x}px`,
-                top: `${y}px`
-            }, {
-                duration: 400,
-                fill: "forwards"
-            });
-        });
+        function loop() {
+            ox += (x - ox) * 0.15
+            oy += (y - oy) * 0.15
+            dot.style.left = x + "px"
+            dot.style.top = y + "px"
+            out.style.left = ox + "px"
+            out.style.top = oy + "px"
+            requestAnimationFrame(loop)
+        }
+        loop()
 
-        // LOGIKA LOGIN
+        /* SPLASH */
+        setTimeout(() => document.getElementById("splash").classList.add("hide"), 3500)
+
+        /* LOGIN */
+        const PASSWORD = "KELUARGA SELAMANYA"
+        let tries = 0,
+            locked = false
+
         function login() {
-            const pass = document.getElementById('pass').value;
-            // Password diubah ke huruf besar sesuai permintaan placeholder sebelumnya jika perlu
-            if (pass.toUpperCase() === "KELUARGA SELAMANYA") {
-                sessionStorage.setItem('isFamilyAuthenticated', 'true');
-                window.location.href = "index.html";
-            } else {
-                document.getElementById('err').style.display = 'block';
-                // Efek getar saat salah
-                const loginBox = document.querySelector('.js-reveal');
-                loginBox.style.animation = "shake 0.4s";
+            if (locked) return
+
+            const input = document.getElementById("pass")
+            const box = document.querySelector(".login-box")
+            const msg = document.getElementById("msg")
+            const load = document.getElementById("loading")
+            const snd = document.getElementById("sound")
+
+            if (input.value.trim() === PASSWORD) {
+                snd.volume = 0.3
+                snd.play().catch(() => {})
+                box.classList.add("unlock")
+                load.classList.add("show")
+
                 setTimeout(() => {
-                    loginBox.style.animation = "";
-                }, 400);
+                    sessionStorage.setItem("rejo_auth", "true")
+                    location.href = "index.html"
+                }, 2300)
+
+            } else {
+                tries++
+                box.classList.remove("shake")
+                void box.offsetWidth
+                box.classList.add("shake")
+
+                if (tries >= 3) {
+                    locked = true
+                    msg.innerText = "SYSTEM LOCKED • ACCESS TERMINATED"
+                    input.disabled = true
+
+                    setTimeout(() => {
+                        document.body.innerHTML = `
+                <div style="color:#b38b4d;
+                            font-family:monospace;
+                            text-align:center;
+                            margin-top:20%;
+                            letter-spacing:3px">
+                    ACCESS VIOLATION<br><br>
+                    TERMINATING SESSION...
+                </div>`
+                    }, 900)
+
+                    setTimeout(() => location.replace("https://www.google.com"), 2800)
+                } else {
+                    msg.innerText = `ACCESS DENIED • ${3-tries} ATTEMPTS LEFT`
+                }
             }
         }
-
-        // Jalankan login saat tekan Enter
-        document.getElementById("pass").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                login();
-            }
-        });
     </script>
+
 </body>
 
 </html>
