@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LOGIN | REJO MUSEUM</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -20,9 +20,9 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Roboto Mono', monospace;
-            color: white;
+            color: white
         }
-        /* CURSOR */
+        /* ================= CURSOR ================= */
         
         @media(pointer:fine) {
             body,
@@ -35,9 +35,12 @@
         .cursor-dot,
         .cursor-outline {
             position: fixed;
+            top: 0;
+            left: 0;
             border-radius: 50%;
             pointer-events: none;
-            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transform: translate(-50%, -50%)
         }
         
         .cursor-dot {
@@ -50,12 +53,11 @@
         .cursor-outline {
             width: 40px;
             height: 40px;
-            border: 1px solid rgba(179, 139, 77, .5);
-            z-index: 10000
+            border: 1px solid rgba(179, 139, 77, .5)
         }
-        /* SPLASH */
+        /* ================= SPLASH ================= */
         
-        #splash {
+        #splash-screen {
             position: fixed;
             inset: 0;
             background: #000;
@@ -63,51 +65,53 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 2s, visibility 2s;
+            transition: opacity 2.5s ease, visibility 2.5s
         }
         
-        #splash.hide {
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 6vw, 2.6rem);
+            color: #b38b4d;
+            opacity: 0;
+            animation: splashIn 3s forwards 1s
+        }
+        
+        @keyframes splashIn {
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+        
+        .fade-out {
             opacity: 0;
             visibility: hidden
         }
+        /* ================= LOGIN ================= */
         
-        #splash h1 {
-            font-family: 'Playfair Display', serif;
-            color: #b38b4d;
-            letter-spacing: 4px;
-            opacity: 0;
-            animation: splash 2.5s forwards 1s;
-        }
-        
-        @keyframes splash {
-            to {
-                opacity: 1
-            }
-        }
-        /* LOGIN */
-        
-        .login-wrap {
+        .login-container {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px
         }
         
         .login-box {
             background: #111;
-            padding: 50px 40px;
-            border: 1px solid rgba(179, 139, 77, .35);
+            padding: clamp(30px, 6vw, 50px) clamp(20px, 5vw, 40px);
+            border: 1px solid rgba(179, 139, 77, .3);
             text-align: center;
-            width: 90%;
-            max-width: 400px;
-            animation: enter 1.5s cubic-bezier(.22, 1, .36, 1);
+            width: 100%;
+            max-width: 420px;
+            animation: loginFade 1.6s cubic-bezier(.22, 1, .36, 1)
         }
         
-        @keyframes enter {
+        @keyframes loginFade {
             from {
                 opacity: 0;
-                transform: translateY(25px) scale(.96);
-                filter: blur(6px)
+                transform: translateY(30px) scale(.98);
+                filter: blur(8px)
             }
             to {
                 opacity: 1;
@@ -124,6 +128,9 @@
             border: 1px solid #333;
             color: white;
             text-align: center;
+            outline: none;
+            font-size: clamp(.85rem, 3vw, .95rem);
+            transition: .4s
         }
         
         input:focus {
@@ -135,44 +142,45 @@
             padding: 15px;
             background: #b38b4d;
             border: none;
+            color: #000;
             font-weight: bold;
             letter-spacing: 2px;
-            transition: .4s;
+            font-size: clamp(.75rem, 3vw, .9rem);
+            transition: .4s cubic-bezier(.22, 1, .36, 1)
         }
         
         button:hover {
-            background: #8e6d3a;
-            transform: translateY(-2px)
+            background: #8e6d3a
         }
-        /* ERROR */
+        /* ================= SHAKE ================= */
         
-        @keyframes shake {
+        @keyframes softShake {
             0% {
                 transform: translateX(0)
             }
             25% {
-                transform: translateX(-6px)
+                transform: translateX(-4px)
             }
             50% {
-                transform: translateX(6px)
+                transform: translateX(4px)
             }
             75% {
-                transform: translateX(-3px)
+                transform: translateX(-2px)
             }
             100% {
                 transform: translateX(0)
             }
         }
         
-        .shake {
-            animation: shake .45s
+        .login-box.shake {
+            animation: softShake .45s
         }
-        /* UNLOCK */
+        /* ================= UNLOCK ================= */
         
-        @keyframes unlock {
+        @keyframes unlockGlow {
             50% {
                 box-shadow: 0 0 40px rgba(179, 139, 77, .6);
-                transform: scale(1.04)
+                transform: scale(1.03)
             }
             100% {
                 opacity: 0;
@@ -180,12 +188,12 @@
             }
         }
         
-        .unlock {
-            animation: unlock 1.8s cubic-bezier(.22, 1, .36, 1) forwards
+        .login-box.unlock {
+            animation: unlockGlow 1.8s cubic-bezier(.22, 1, .36, 1) forwards
         }
-        /* LOADING */
+        /* ================= LOADING ================= */
         
-        #loading {
+        #access-loading {
             position: fixed;
             inset: 0;
             background: #000;
@@ -195,20 +203,27 @@
             flex-direction: column;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 1s;
-            z-index: 9998;
+            transition: opacity 1s ease;
+            z-index: 9998
         }
         
-        #loading.show {
+        #access-loading.show {
             opacity: 1
         }
         
-        .scan {
+        .access-text {
+            letter-spacing: 6px;
+            color: #b38b4d;
+            margin-top: 20px;
+            font-size: clamp(.7rem, 3vw, .9rem)
+        }
+        
+        .scan-line {
             position: absolute;
             width: 100%;
             height: 2px;
             background: linear-gradient(to right, transparent, #b38b4d, transparent);
-            animation: scan 2.5s linear infinite;
+            animation: scan 2.5s linear infinite
         }
         
         @keyframes scan {
@@ -219,127 +234,129 @@
                 top: 100%
             }
         }
-        
-        #loading span {
-            letter-spacing: 6px;
-            color: #b38b4d;
-            margin-top: 20px
-        }
-        /* GRAIN */
+        /* ================= GRAIN ================= */
         
         .grain {
             position: fixed;
             inset: 0;
-            pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-            z-index: 9997;
+            pointer-events: none;
+            z-index: 9997
+        }
+        /* ================= MOBILE ================= */
+        
+        @media(max-width:768px) {
+            .cursor-dot,
+            .cursor-outline {
+                display: none!important
+            }
+            button:hover {
+                transform: none
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div id="splash">
-        <h1>The Eternal Lineage</h1>
+    <div id="splash-screen">
+        <div class="welcome-text">The Eternal Lineage</div>
     </div>
+
     <div class="grain"></div>
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <div class="login-wrap">
+    <div class="login-container">
         <div class="login-box">
             <h2 style="font-family:Playfair Display;color:#b38b4d;letter-spacing:3px">AUTHENTICATION</h2>
             <p style="color:#666;font-size:10px;margin:10px 0 20px">RESTRICTED ARCHIVE ACCESS</p>
-            <input type="password" id="pass" placeholder="KODE KELUARGA">
-            <button onclick="login()">ENTER ARCHIVE</button>
-            <p id="msg" style="color:#ff4d4d;font-size:11px;margin-top:15px"></p>
+            <input type="password" id="passInput" placeholder="KODE KELUARGA">
+            <button onclick="checkPass()">ENTER ARCHIVE</button>
+            <p id="errorMessage" style="color:#ff4d4d;font-size:11px;margin-top:15px"></p>
         </div>
     </div>
 
-    <div id="loading">
-        <div class="scan"></div>
-        <span>ACCESS GRANTED</span>
+    <div id="access-loading">
+        <div class="scan-line"></div>
+        <div class="access-text">ACCESS GRANTED</div>
     </div>
 
-    <audio id="sound"><source src="login.mp3"></audio>
+    <audio id="loginSound" preload="auto">
+    <source src="login.mp3" type="audio/mpeg">
+</audio>
 
     <script>
-        /* CURSOR */
-        const dot = document.querySelector('.cursor-dot')
-        const out = document.querySelector('.cursor-outline')
-        let x = 0,
-            y = 0,
-            ox = 0,
-            oy = 0
-        addEventListener('mousemove', e => {
-            x = e.clientX;
-            y = e.clientY
-        });
-        (function anim() {
-            ox += (x - ox) * 0.15;
-            oy += (y - oy) * 0.15
-            dot.style.left = x + 'px';
-            dot.style.top = y + 'px'
-            out.style.left = ox + 'px';
-            out.style.top = oy + 'px'
-            requestAnimationFrame(anim)
-        })()
+        /* ================= SPLASH ================= */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('fade-out')
+            }, 3500)
+        })
 
-        /* SPLASH */
-        setTimeout(() => document.getElementById('splash').classList.add('hide'), 3500)
+        /* ================= CURSOR ================= */
+        if (window.matchMedia("(pointer:fine)").matches) {
+            const dot = document.querySelector('.cursor-dot')
+            const out = document.querySelector('.cursor-outline')
+            let x = 0,
+                y = 0,
+                ox = 0,
+                oy = 0
+            addEventListener('mousemove', e => {
+                x = e.clientX;
+                y = e.clientY
+            });
+            (function anim() {
+                ox += (x - ox) * 0.15
+                oy += (y - oy) * 0.15
+                dot.style.left = x + 'px'
+                dot.style.top = y + 'px'
+                out.style.left = ox + 'px'
+                out.style.top = oy + 'px'
+                requestAnimationFrame(anim)
+            })()
+        }
 
-        /* DEFENSE CORE */
+        /* ================= AUTH ================= */
         const PASSWORD = "KELUARGA SELAMANYA"
-        let attempts = 0
-        let LOCKED = false
+        let attempts = 0,
+            locked = false
 
-        function login() {
-            if (LOCKED) return
-
-            const input = pass.value.trim()
-            const box = document.querySelector('.login-box')
+        function checkPass() {
+            if (locked) return
+            const input = document.getElementById("passInput").value.trim()
+            const box = document.querySelector(".login-box")
+            const err = document.getElementById("errorMessage")
+            const load = document.getElementById("access-loading")
+            const sound = document.getElementById("loginSound")
 
             if (input === PASSWORD) {
-                sound.volume = 0.3
-                sound.play().catch(() => {})
-                box.classList.add('unlock')
-                loading.classList.add('show')
-
+                sound.volume = 0.4
+                sound.play()
+                box.classList.add("unlock")
+                load.classList.add("show")
                 setTimeout(() => {
-                    sessionStorage.setItem('rejo_auth', 'true')
-                    location.href = 'index.html'
+                    sessionStorage.setItem("rejo_auth", "true")
+                    location.href = "index.html"
                 }, 2300)
-
             } else {
                 attempts++
-                box.classList.remove('shake');
+                box.classList.remove("shake")
                 void box.offsetWidth
-                box.classList.add('shake')
+                box.classList.add("shake")
 
                 if (attempts >= 3) {
-                    LOCKED = true
-                    msg.innerText = "SYSTEM LOCKED • ACCESS TERMINATED"
-                    pass.disabled = true
-
-                    setTimeout(() => {
-                        document.body.innerHTML = `
-                <div style="color:#b38b4d;
-                            font-family:monospace;
-                            text-align:center;
-                            margin-top:20%;
-                            letter-spacing:3px">
-                ACCESS VIOLATION<br><br>
-                TERMINATING SESSION...
-                </div>`
-                    }, 900)
-
-                    setTimeout(() => location.replace("https://www.google.com"), 2800)
+                    locked = true
+                    err.innerText = "SYSTEM LOCKED • ACCESS TERMINATED"
+                    document.getElementById("passInput").disabled = true
+                    setTimeout(() => location.replace("https://www.google.com"), 2500)
                 } else {
-                    msg.innerText = `ACCESS DENIED • ${3-attempts} ATTEMPTS LEFT`
+                    err.innerText = "ACCESS DENIED • " + (3 - attempts) + " ATTEMPTS LEFT"
                 }
             }
         }
     </script>
+
 </body>
 
 </html>
