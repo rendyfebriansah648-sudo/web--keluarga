@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN | REJO MUSEUM</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
-
     <style>
+        /* GENERAL */
+        
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box
+            box-sizing: border-box;
         }
         
         body {
@@ -20,16 +20,8 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Roboto Mono', monospace;
-            color: white
-        }
-        /* Cursor */
-        
-        @media(pointer:fine) {
-            body,
-            input,
-            button {
-                cursor: none
-            }
+            color: white;
+            cursor: none;
         }
         
         .cursor-dot,
@@ -39,23 +31,23 @@
             left: 0;
             border-radius: 50%;
             pointer-events: none;
-            transform: translate(-50%, -50%);
             z-index: 10000;
+            transition: opacity .2s;
         }
         
         .cursor-dot {
             width: 6px;
             height: 6px;
             background: #b38b4d;
-            z-index: 10001
+            z-index: 10001;
         }
         
         .cursor-outline {
             width: 40px;
             height: 40px;
-            border: 1px solid rgba(179, 139, 77, .5)
+            border: 1px solid rgba(179, 139, 77, .5);
         }
-        /* Splash */
+        /* SPLASH */
         
         #splash-screen {
             position: fixed;
@@ -87,7 +79,7 @@
             opacity: 0;
             visibility: hidden
         }
-        /* Login */
+        /* LOGIN BOX */
         
         .login-container {
             height: 100vh;
@@ -123,13 +115,13 @@
         input {
             width: 100%;
             padding: 15px;
-            margin: 20px 0;
+            margin: 10px 0;
             background: #000;
             border: 1px solid #333;
             color: white;
             text-align: center;
-            outline: none;
             font-size: clamp(.85rem, 3vw, .95rem);
+            outline: none;
             transition: .4s
         }
         
@@ -152,7 +144,13 @@
         button:hover {
             background: #8e6d3a
         }
-        /* Shake */
+        
+        #errorMessage {
+            color: #ff4d4d;
+            font-size: 11px;
+            margin-top: 15px
+        }
+        /* SHAKE & UNLOCK */
         
         @keyframes softShake {
             0% {
@@ -175,7 +173,6 @@
         .login-box.shake {
             animation: softShake .45s
         }
-        /* Unlock */
         
         @keyframes unlockGlow {
             50% {
@@ -191,7 +188,7 @@
         .login-box.unlock {
             animation: unlockGlow 1.8s cubic-bezier(.22, 1, .36, 1) forwards
         }
-        /* Loading */
+        /* LOADING */
         
         #access-loading {
             position: fixed;
@@ -234,16 +231,7 @@
             margin-top: 20px;
             font-size: clamp(.7rem, 3vw, .9rem)
         }
-        /* Grain */
-        
-        .grain {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-            z-index: 9997
-        }
-        /* Biometric */
+        /* BIOMETRIC */
         
         #biometric-modal {
             position: fixed;
@@ -255,7 +243,7 @@
             opacity: 0;
             visibility: hidden;
             transition: .8s;
-            z-index: 10002;
+            z-index: 10002
         }
         
         #biometric-modal.show {
@@ -269,7 +257,7 @@
             text-align: center;
             border: 1px solid #b38b4d;
             width: 80%;
-            max-width: 300px;
+            max-width: 300px
         }
         
         .biometric-icon {
@@ -288,21 +276,57 @@
                 transform: scale(1.15)
             }
         }
+        /* TOAST NOTIF */
         
-        @media(max-width:768px) {
-            .cursor-dot,
-            .cursor-outline {
-                display: none!important
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 11000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .toast {
+            background: rgba(179, 139, 77, 0.9);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            animation: toastInOut 3s forwards;
+        }
+        
+        @keyframes toastInOut {
+            0% {
+                opacity: 0;
+                transform: translateX(100%)
             }
-            button:hover {
-                transform: none
+            10%,
+            80% {
+                opacity: 1;
+                transform: translateX(0)
             }
+            100% {
+                opacity: 0;
+                transform: translateX(100%)
+            }
+        }
+        /* GRAIN */
+        
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            z-index: 9997
         }
     </style>
 </head>
 
 <body>
 
+    <!-- SPLASH -->
     <div id="splash-screen">
         <div class="welcome-text">The Eternal Lineage</div>
     </div>
@@ -311,22 +335,25 @@
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
+    <!-- LOGIN BOX -->
     <div class="login-container">
         <div class="login-box">
             <h2 style="font-family:Playfair Display;color:#b38b4d;letter-spacing:3px">AUTHENTICATION</h2>
             <p style="color:#666;font-size:10px;margin:10px 0 20px">RESTRICTED ARCHIVE ACCESS</p>
-            <input type="password" id="passInput" placeholder="KODE KELUARGA">
+            <input type="text" id="nameInput" placeholder="MASUKKAN NAMA">
+            <input type="password" id="passInput" placeholder="KODE KELUARGA/ADMIN">
             <button onclick="checkPass()">ENTER ARCHIVE</button>
-            <p id="errorMessage" style="color:#ff4d4d;font-size:11px;margin-top:15px"></p>
+            <p id="errorMessage"></p>
         </div>
     </div>
 
+    <!-- LOADING -->
     <div id="access-loading">
         <div class="scan-line"></div>
         <div class="access-text">ACCESS GRANTED</div>
     </div>
 
-    <!-- Biometric Modal -->
+    <!-- BIOMETRIC -->
     <div id="biometric-modal">
         <div class="biometric-box">
             <div class="biometric-icon">🔒</div>
@@ -336,44 +363,59 @@
         </div>
     </div>
 
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- AUDIO -->
     <audio id="loginSound" preload="auto">
-    <source src="https://www.orangefreesounds.com/wp-content/uploads/2020/04/Login-sound.mp3" type="audio/mpeg">
+<source src="https://www.orangefreesounds.com/wp-content/uploads/2020/04/Login-sound.mp3" type="audio/mpeg">
 </audio>
 
     <script>
-        /* Anti Back */
+        // ANTI BACK
         history.pushState(null, "", location.href)
         window.onpopstate = () => history.pushState(null, "", location.href)
 
-        /* Splash */
+        // SPLASH
         window.addEventListener('load', () => {
             setTimeout(() => document.getElementById('splash-screen').classList.add('fade-out'), 3500)
         })
 
-        /* Cursor */
+        // CURSOR
         if (window.matchMedia("(pointer:fine)").matches) {
-            const dot = document.querySelector('.cursor-dot')
-            const out = document.querySelector('.cursor-outline')
+            const dot = document.querySelector('.cursor-dot'),
+                out = document.querySelector('.cursor-outline');
             let mx = 0,
                 my = 0,
                 ox = 0,
-                oy = 0
-            addEventListener('mousemove', e => {
+                oy = 0;
+            document.addEventListener('mousemove', e => {
                 mx = e.clientX;
                 my = e.clientY
             });
-            (function anim() {
-                ox += (mx - ox) * .15
-                oy += (my - oy) * .15
-                dot.style.left = mx + "px";
-                dot.style.top = my + "px"
-                out.style.left = ox + "px";
-                out.style.top = oy + "px"
-                requestAnimationFrame(anim)
-            })()
+
+            function anim() {
+                ox += (mx - ox) * 0.2;
+                oy += (my - oy) * 0.2;
+                dot.style.transform = `translate(${mx-3}px,${my-3}px)`;
+                out.style.transform = `translate(${ox-20}px,${oy-20}px)`;
+                requestAnimationFrame(anim);
+            }
+            anim();
+            document.querySelectorAll('input,textarea,button').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    dot.style.opacity = '0';
+                    out.style.opacity = '0'
+                });
+                el.addEventListener('mouseleave', () => {
+                    dot.style.opacity = '1';
+                    out.style.opacity = '1'
+                });
+            });
         }
 
-        let biometricPassed = false
+        // BIOMETRIC
+        let biometricPassed = false;
 
         function showBiometric() {
             document.getElementById('biometric-modal').classList.add('show')
@@ -384,48 +426,75 @@
             document.getElementById('biometric-modal').classList.remove('show')
         }
 
-        let attempts = 0,
-            locked = false
-        const PASSWORD = "KELUARGA SELAMANYA"
+        // TOAST
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.innerText = msg;
+            document.getElementById('toastContainer').appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
 
+        // LOGIN LOGIC
+        let attempts = 0,
+            locked = false;
+        const PASSWORD_KELUARGA = "KELUARGA SELAMANYA";
+        const PASSWORD_ADMIN = "ADMIN SECRET"; // hanya pembuat tahu
         function checkPass() {
-            if (locked) return
+            if (locked) return;
             if (!biometricPassed) {
                 showBiometric();
-                return
+                return;
             }
+            const name = document.getElementById('nameInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
+            const box = document.querySelector('.login-box');
+            const err = document.getElementById('errorMessage');
+            const load = document.getElementById('access-loading');
+            const snd = document.getElementById('loginSound');
 
-            const pass = document.getElementById('passInput').value.trim()
-            const box = document.querySelector('.login-box')
-            const err = document.getElementById('errorMessage')
-            const load = document.getElementById('access-loading')
-            const snd = document.getElementById('loginSound')
-
-            if (pass === PASSWORD) {
-                snd.volume = 0.4;
-                snd.play().catch(() => {})
-                box.classList.add('unlock');
-                load.classList.add('show')
-                setTimeout(() => {
-                    sessionStorage.setItem('rejo_auth', 'true');
-                    location.href = 'portal.html'
-                }, 2300)
-            } else {
-                attempts++
-                if (navigator.vibrate) navigator.vibrate([80, 30, 80])
+            let role = "";
+            if (pass === PASSWORD_KELUARGA) role = "keluarga";
+            else if (pass === PASSWORD_ADMIN) role = "admin";
+            else {
+                attempts++;
+                if (navigator.vibrate) navigator.vibrate([80, 30, 80]);
                 box.classList.remove('shake');
                 void box.offsetWidth;
-                box.classList.add('shake')
-
+                box.classList.add('shake');
+                showToast("ACCESS DENIED • " + (3 - attempts) + " ATTEMPTS LEFT");
                 if (attempts >= 3) {
-                    locked = true
-                    err.innerText = "SYSTEM LOCKED • ACCESS TERMINATED"
-                    document.getElementById('passInput').disabled = true
+                    locked = true;
+                    err.innerText = "SYSTEM LOCKED • ACCESS TERMINATED";
+                    document.getElementById('passInput').disabled = true;
                     setTimeout(() => location.replace('https://www.google.com'), 2500)
-                } else {
-                    err.innerText = "ACCESS DENIED • " + (3 - attempts) + " ATTEMPTS LEFT"
-                }
+                };
+                return;
             }
+
+            snd.volume = 0.4;
+            snd.play().catch(() => {});
+            box.classList.add('unlock');
+            load.classList.add('show');
+
+            setTimeout(() => {
+                sessionStorage.setItem('rejo_auth', role);
+                sessionStorage.setItem('user_name', name);
+
+                // save log
+                let log = JSON.parse(localStorage.getItem('login_log') || '[]');
+                let device = navigator.userAgent;
+                let now = new Date().toLocaleString();
+                log.push({
+                    name: name,
+                    role: role,
+                    time: now,
+                    device: device
+                });
+                localStorage.setItem('login_log', JSON.stringify(log));
+
+                location.href = (role === "admin") ? "admin.html" : "keluarga.html";
+            }, 2300);
         }
     </script>
 
