@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN | REJO MUSEUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            cursor: none;
+            overflow-x: hidden;
+        }
+        
+        nav {
+            width: 100%;
+            background: rgba(0, 0, 0, .85);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        nav .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #b38b4d;
+            letter-spacing: 2px;
+        }
+        
+        nav .menu-btn {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 1.1rem;
+            transition: .3s;
+        }
+        
+        nav .menu-btn:hover {
+            color: #fff;
+        }
+        
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            flex: 1;
+            animation: fadeIn 1.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: #b38b4d;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .controls input,
+        .controls select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #111;
+            color: #fff;
+        }
+        
+        .controls button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 5px;
+            background: #b38b4d;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .3s;
+        }
+        
+        .controls button:hover {
+            background: #8e6d3a;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeSlide 1s forwards 0.3s;
+        }
+        
+        @keyframes fadeSlide {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid rgba(179, 139, 77, .3);
+            text-align: center;
+        }
+        
+        th {
+            background: rgba(179, 139, 77, .2);
+        }
+        
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, .05);
+        }
+        
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: opacity .2s;
+        }
+        
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: #b38b4d;
+            z-index: 10001;
+        }
+        
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(179, 139, 77, .5);
+        }
+        
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(179, 139, 77, 0.95);
+            color: #000;
+            padding: 12px 22px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .5);
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .5s, transform .5s;
+            z-index: 10003;
+        }
+        
+        #toast.show {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
+        
+        @media(max-width:768px) {
+            .cursor-dot,
+            .cursor-outline {
+                display: none!important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <nav>
+        <div class="title">REJO MUSEUM ADMIN</div>
+        <div>
+            <span class="menu-btn" onclick="goHome()"><i class="fa-solid fa-house"></i> Home</span> &nbsp;|&nbsp;
+            <span class="menu-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</span>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Selamat Datang Admin</h1>
+
+        <div class="controls">
+            <input type="text" id="searchUser" placeholder="Cari nama...">
+            <select id="filterRole">
+    <option value="">Semua Role</option>
+    <option value="keluarga">Keluarga</option>
+    <option value="admin">Admin</option>
+  </select>
+            <button onclick="applyFilter()">Filter</button>
+            <button onclick="clearLog()">Hapus Semua Log</button>
+            <button onclick="exportLog()">Export JSON</button>
+        </div>
+
+        <table id="loginTable">
+            <thead>
+                <tr>
+                    <th>Nama User</th>
+                    <th>Role</th>
+                    <th>Waktu Login</th>
+                    <th>Device</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+
+    <div id="toast"></div>
+
+    <script>
+        /* Session check */
+        if (sessionStorage.getItem('rejo_auth') !== 'admin') {
+            alert("Hanya admin yang bisa mengakses halaman ini!");
+            location.replace("login.html");
+        }
+
+        /* Cursor */
+        if (window.matchMedia("(pointer:fine)").matches) {
+            const dot = document.querySelector('.cursor-dot'),
+                out = document.querySelector('.cursor-outline');
+            let mx = 0,
+                my = 0,
+                ox = 0,
+                oy = 0;
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX;
+                my = e.clientY;
+            });
+
+            function anim() {
+                ox += (mx - ox) * 0.15;
+                oy += (my - oy) * 0.15;
+                dot.style.transform = `translate(${mx-3}px,${my-3}px)`;
+                out.style.transform = `translate(${ox-20}px,${oy-20}px)`;
+                requestAnimationFrame(anim);
+            }
+            anim();
+        }
+
+        /* Toast */
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => {
+                t.classList.remove('show')
+            }, 2500);
+        }
+
+        /* Logout & Home */
+        function logout() {
+            sessionStorage.clear();
+            showToast("Logout Berhasil");
+            setTimeout(() => location.replace("login.html"), 800);
+        }
+
+        function goHome() {
+            location.href = "keluarga.html";
+        }
+
+        /* Log Table */
+        function renderLog(log) {
+            const tbody = document.querySelector('#loginTable tbody');
+            tbody.innerHTML = '';
+            log.forEach(entry => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${entry.name}</td><td>${entry.role}</td><td>${entry.time}</td><td>${entry.device}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        /* Load & Filter */
+        let logData = JSON.parse(localStorage.getItem('login_log') || '[]');
+        renderLog(logData);
+
+        function applyFilter() {
+            const role = document.getElementById('filterRole').value;
+            const search = document.getElementById('searchUser').value.toLowerCase();
+            const filtered = logData.filter(e => {
+                return (!role || e.role === role) && (!search || e.name.toLowerCase().includes(search));
+            });
+            renderLog(filtered);
+            showToast("Filter diterapkan");
+        }
+
+        /* Clear Log */
+        function clearLog() {
+            if (confirm("Yakin ingin menghapus semua log?")) {
+                localStorage.removeItem('login_log');
+                logData = [];
+                renderLog(logData);
+                showToast("Log berhasil dihapus");
+            }
+        }
+
+        /* Export Log */
+        function exportLog() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logData, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "login_log.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            showToast("Log diexport sebagai JSON");
+        }
+
+        /* Anti-back */
+        history.pushState(null, "", location.href);
+        window.onpopstate = () => history.pushState(null, "", location.href);
+    </script>
+
+</body>
+
+</html>
