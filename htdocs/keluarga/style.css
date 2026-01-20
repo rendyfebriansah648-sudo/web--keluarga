@@ -1,0 +1,388 @@
+/* REJO MUSEUM - OFFICIAL STYLESHEET 
+   Developed for: Rendy
+   Updated: 2026 - Animation & Layering Fix
+*/
+
+:root {
+    --vintage-cream: #fdfaf6;
+    --deep-ink: #1a1a1a;
+    --antique-gold: #b38b4d;
+    --border-line: rgba(26, 26, 26, 0.08);
+    --white: #ffffff;
+    --text-gray: #555555;
+    --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* --- Base Reset --- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--vintage-cream);
+    color: var(--deep-ink);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    /* Menyembunyikan kursor asli */
+}
+
+
+/* --- Custom Cursor (Layering Fix) --- */
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 999999;
+    /* Z-Index sangat tinggi agar kursor selalu di atas foto */
+    pointer-events: none;
+    /* Agar tidak menghalangi klik pada tombol */
+    transition: opacity 0.3s ease;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--antique-gold);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--antique-gold);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+
+/* --- Logic Animation: Reveal on Scroll --- */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px) scale(0.98);
+    transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: blur(5px);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+
+/* --- Navigation --- */
+
+nav {
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-line);
+    position: sticky;
+    top: 0;
+    background: rgba(253, 250, 246, 0.95);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.nav-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.nav-title span {
+    color: var(--antique-gold);
+    font-weight: 400;
+    font-style: italic;
+}
+
+.logout-btn {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--antique-gold);
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 8px 15px;
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.logout-btn:hover {
+    border-color: var(--antique-gold);
+    background: var(--antique-gold);
+    color: var(--white);
+}
+
+
+/* --- Hero Section --- */
+
+.hero {
+    padding: 120px 5% 80px;
+    text-align: center;
+}
+
+.hero-sub {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--antique-gold);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-style: italic;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+
+/* --- Container & Labels --- */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.section-label {
+    text-align: center;
+    padding: 120px 0 60px;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 8px;
+    color: var(--antique-gold);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+
+/* --- Bio Cards --- */
+
+.bio-card {
+    background: var(--white);
+    border: 1px solid var(--border-line);
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+    overflow: hidden;
+    position: relative;
+}
+
+.bio-card:hover {
+    border-color: var(--antique-gold);
+    transform: translateY(-15px);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
+}
+
+.bio-photo {
+    width: 100%;
+    height: 500px;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+.bio-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bio-card:hover .bio-photo img {
+    transform: scale(1.1);
+}
+
+.role-badge {
+    background: var(--deep-ink);
+    color: var(--white);
+    padding: 15px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: center;
+}
+
+.bio-details {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bio-details h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.bio-tagline {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: var(--antique-gold);
+    margin-bottom: 30px;
+}
+
+.bio-content {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-gray);
+    text-align: justify;
+}
+
+
+/* --- Special Cards --- */
+
+.highlight-card {
+    border: 1px solid rgba(179, 139, 77, 0.3);
+    background: linear-gradient(135deg, #ffffff, #fffcf5);
+}
+
+.dead-card {
+    border-left: 5px solid var(--deep-ink) !important;
+}
+
+.grayscale img {
+    filter: grayscale(100%);
+    transition: filter 1s ease;
+}
+
+.bio-card:hover .grayscale img {
+    filter: grayscale(0%);
+}
+
+
+/* --- Memory Gate --- */
+
+.memory-gate {
+    margin-top: 100px;
+    background: var(--deep-ink);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--antique-gold);
+    overflow: hidden;
+}
+
+.memory-content {
+    padding: 80px 50px;
+    text-align: center;
+}
+
+.memory-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 18px 45px;
+    border: 1px solid var(--antique-gold);
+    color: var(--antique-gold);
+    text-decoration: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    font-weight: 700;
+    transition: 0.4s;
+}
+
+.memory-btn:hover {
+    background: var(--antique-gold);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.memory-preview {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+}
+
+.memory-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: opacity 1s ease, transform 1.5s ease;
+}
+
+.memory-gate:hover .memory-preview img {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+
+/* --- Responsive Desktop (850px+) --- */
+
+@media (min-width: 850px) {
+    .bio-card {
+        flex-direction: row;
+        height: 550px;
+    }
+    .bio-visual {
+        width: 40%;
+    }
+    .bio-details {
+        width: 60%;
+        padding: 60px;
+    }
+    .memory-gate {
+        flex-direction: row;
+        height: 500px;
+    }
+    .memory-content {
+        width: 45%;
+        border-right: 1px solid var(--antique-gold);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .memory-preview {
+        width: 55%;
+        height: 100%;
+    }
+}
+
+
+/* --- Responsive Mobile --- */
+
+@media (max-width: 768px) {
+    html,
+    body {
+        cursor: auto;
+        /* Aktifkan kursor asli di HP */
+    }
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+        /* Sembunyikan custom cursor di HP */
+    }
+    .hero h1 {
+        font-size: 2.4rem;
+    }
+    .bio-photo {
+        height: 350px;
+    }
+    .bio-details {
+        padding: 35px;
+    }
+    .bio-details h2 {
+        font-size: 2rem;
+    }
+}
